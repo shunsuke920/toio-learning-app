@@ -1,0 +1,106 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h2 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+#memoForm, #memoList {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+input[type="text"] {
+  padding: 8px 10px;
+  margin: 5px 10px 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 250px;
+}
+
+button {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+/* 各ボタンの色分け */
+button:contains("保存") {
+  background-color: #2ecc71;
+  color: white;
+}
+button:contains("削除") {
+  background-color: #e74c3c;
+  color: white;
+}
+button:contains("再生") {
+  background-color: #3498db;
+  color: white;
+}
+button:contains("話す") {
+  background-color: #9b59b6;
+  color: white;
+}
+
+ul#memoItems {
+  list-style: none;
+  padding: 0;
+}
+
+ul#memoItems li {
+  background: #ecf0f1;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;             /* ← ここ */
+  align-items: center;       /* 中央寄せ */
+  justify-content: space-between; /* 左右に分ける */
+  flex-wrap: wrap;           /* 長い文を折り返し */
+}
+
+.memo-text {
+  max-width: 70%;            /* テキストが占める最大幅 */
+  word-break: break-word;    /* 単語の途中でも改行 */
+}
+
+.memo-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;            /* ボタンは縮めない */
+}
+
+
+strong {
+  font-size: 16px;
+}
+
+em {
+  color: #7f8c8d;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+#memoList {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding-right: 10px;
+}
+
+em:empty::after {
+  content: "（タグなし）";
+  color: #bbb;
+  font-style: italic;
+}
