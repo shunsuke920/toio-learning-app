@@ -1,0 +1,3543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五感で学べる英語学習</title>
+    <link rel="stylesheet" href="All-project.css"> <!-- CSSをまとめて読み込み -->
+</head>
+<body>
+  <div id="header">
+    <img src="homeIcon.png" alt="Home" id="homeIcon" class="floating-icon">
+  </div>
+
+
+    <!-- Step 1: Toioとつなげる -->
+    <div id="step1" class="step">
+        <h1>Step 1: Toioとつなげる</h1>
+        <div class="connect-wrapper">
+            <button id="connectButton" class="button start-button">つなげる</button>
+            <button id="goToStep2" class="button next-button" disabled style="display: none;">次へ</button>
+        </div>
+        <div id="robotLog"></div>
+    </div>
+
+
+<!-- Step 2: 言語を選ぶ -->
+<div id="step2" class="step" style="display: none;">
+    <h1>Step 2: 言語を選んでね</h1>
+    <div class="language-container">
+        <button class="language-button" data-language="en">
+            <img src="https://flagcdn.com/w40/us.png" alt="English" class="flag-icon">
+            <span>English</span>
+        </button>
+
+        <!-- 🇪🇸 Spanish -->
+        <button class="language-button" data-language="es">
+            <img src="https://flagcdn.com/w40/es.png" alt="Español" class="flag-icon">
+            <span>Español</span>
+            </button>
+
+          <!-- 🇰🇷 Korean -->
+        <button class="language-button" data-language="ko">
+            <img src="https://flagcdn.com/w40/kr.png" alt="한국어" class="flag-icon">
+            <span>한국어</span>
+        </button>
+
+
+        <!-- 🇰🇷 Mandarin -->
+         <button class="language-button" data-language="zh">
+            <img src="https://flagcdn.com/w40/cn.png" alt="中文" class="flag-icon">
+            <span>中文</span>
+         </button>
+      
+    </div>
+   
+
+</div>
+
+
+<!-- Step 3: コースを選ぶ -->
+<div id="step3" class="step" style="display: none;">
+    <h1>Step 3: コースを選んでね</h1>
+    <div class="button-container">
+        <button class="course-button navigation" data-course="navigation">道案内コース</button>
+        <button class="course-button pronunciation" data-course="pronunciation">発音コース</button>
+        <button class="course-button verbsAdverbs" data-course="verbsAdverbs">動作と表現</button>
+         <button class="course-button nativephrase" data-course="nativephrase">ネイティブ<br>フレーズ集</button>
+    </div>
+    <button id="goToStep4" class="button next-button" disabled style="display: none;">次へ</button>
+</div>
+
+
+<!-- Step 4: レベルを選ぶ -->
+<div id="step4-navigation" class="step" style="display: none;">
+  <h1>Step 4: レベルを選んでね</h1>
+  <div class="level-container">
+
+    <div class="level-option">
+      <button class="level-button easy" data-level="beginner">かんたん</button>
+      <div class="example-snippet" data-for="beginner"></div>
+    </div>
+
+    <div class="level-option">
+      <button class="level-button normal" data-level="intermediate">ふつう</button>
+      <div class="example-snippet" data-for="intermediate"></div>
+    </div>
+
+    <div class="level-option">
+      <button class="level-button hard" data-level="advanced">むずかしい</button>
+      <div class="example-snippet" data-for="advanced"></div>
+    </div>
+
+  </div>
+
+  <button id="goToStep5" class="button next-button" disabled style="display: none;">次へ</button>
+
+  <div id="levelExamples" class="level-example-container"></div>
+</div>
+
+
+<!-- 副詞：動作と表現を学ぶページ -->
+<div id="step4-verbsAdverbs" class="step" style="display: none;">
+
+  <h1>Step 4: 動作と表現を学ぼう！</h1>
+  <h2 class="B">使える表現</h2>
+
+  <div id="expressionContainer-verbsAdverbs"
+       class="grid-container"></div>
+
+  <div class="nav-button-group">
+    <button onclick="startNavigationListening()"
+            class="btn navcheck-btn">
+      🎙 Start
+    </button>
+
+    <button onclick="stopNavigationListening()"
+            class="btn stop-btn">
+      ⏹ Stop
+    </button>
+  </div>
+
+
+  <!-- ✅ 成功フィードバック -->
+  <div id="verbsAdverbsSuccessFeedback"
+       class="success-feedback hidden">
+
+    <div class="success-icon">✓</div>
+
+    <div class="success-title">
+      Great!
+    </div>
+
+    <div class="success-message">
+      正しく発音できました。
+    </div>
+
+    <div class="recognition-result">
+      認識結果：
+      <span id="verbsAdverbsSuccessText"></span>
+    </div>
+
+  </div>
+
+
+  <!-- ❌ 失敗フィードバック -->
+  <div id="verbsAdverbsErrorFeedback"
+       class="error-feedback hidden">
+
+    <div class="error-title">
+      Try again!
+    </div>
+
+    <div class="error-message">
+      正しく認識されませんでした。
+    </div>
+
+    <div class="recognition-result">
+      認識結果：
+      <span id="verbsAdverbsErrorText"></span>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- 発音練習コース -->
+<div id="step4-pronunciation" class="step" style="display: none;">
+  <h1 class="step-title">Step 4: 発音を練習しよう！</h1>
+  <p class="step-subtext">以下の単語を声に出して練習してみよう！</p>
+
+<div class="practice-container">
+  <div class="input-save-wrapper">
+    <textarea id="practiceInput" placeholder="ここに単語や文を入力" class="practice-input" rows="3"></textarea>
+    
+    <!-- ✅ 保存ボタン：画像クリックで保存 -->
+    <button id="saveMemoButton" class="btn save-btn">
+      <img src="Saveimage.png" alt="保存" width="25">
+    </button>
+  </div>
+</div>
+
+
+    <div class="button-group">
+      <button onclick="speak()" class="btn speak-btn">🔈 読み上げ</button>
+      <button onclick="speak('slow')" class="btn slow-btn">🐢 ゆっくり</button>
+      <button onclick="startRecognition()" class="btn check-btn">🎙 発音チェック</button>
+
+      <!-- カスタムセレクト -->
+      <div class="custom-select" id="customSelect">
+        <div class="selected" id="selectedOption">
+          <div data-value="en-US"><img src="https://flagcdn.com/w40/us.png" width="20"> American English</div>
+        </div>
+      </div>
+
+      <input type="hidden" id="voiceSelect" value="en-GB">
+    </div>
+
+<!--メモセクション-->
+<div class="memo-header-wrapper">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 キーワード" oninput="renderMemoList()">
+  </div>
+
+  <!-- ✅ トグル可能なメモの見出し -->
+  <h2 class="memo" id="memoHeader">📝 Open</h2>
+
+  <button id="addFolderBtn">
+    <img src="folder.png" alt="folder" class="folder-icon"/>
+    フォルダ追加
+  </button>
+
+  <!-- ✅ ここに追加！: フォルダ表示領域 -->
+  <div id="folderList"></div>
+</div>
+
+<!-- ✅ メモ一覧は .memo-header-wrapper の外に！ -->
+<div id="memoList"></div>
+
+
+    <!-- ✅ フィードバック表示 -->
+    <div id="feedback" class="feedback-box"></div>
+  </div>
+
+
+  <!-- ✅ ネイティブフレーズ集エリア -->
+   <div id="step4-nativephrases" class="step" style="display: none;">
+  <h1>Step 4: ネイディブフレーズ集を学ぼう！</h1>
+
+
+
+  <!-- 🔙 上部ヘッダー（戻るボタン） -->
+  <div id="nativeHeader" class="header-bar" style="display: none;">
+      <!-- 🔠 フレーズ本体 -->
+    <h2 id="selectedPhrase" class="phrase-title"></h2>
+    <p id="phraseTranslation" class="phrase-translation-text" style="text-align: center;"></p>
+    <button id="backToBrowse" class="browse">← Browse</button>
+  </div>
+
+  <!-- 📋 一覧 -->
+  <div id="phraseList" class="phrase-list">
+    <!-- ボタンはJSで生成または静的に配置 -->
+    <button class="phrase-item" onclick="showPhraseDetails('getAKick')">get a kick out of sth</button>
+    <button class="phrase-item" onclick="showPhraseDetails('putMoney')">put one’s money where one’s mouth is</button>
+    <!-- 他のフレーズ追加可能 -->
+  </div>
+<!-- 💬 フレーズ詳細 -->
+<div id="phraseDetails" class="phrase-details" style="display: none;">
+   
+
+
+
+
+  <!-- 🗣️ 発音記号 -->
+  <div id="pronunciation" class="phonetic-text"></div>
+
+  <!-- 🈯 意味 -->
+  <div id="translation" class="translation-text"></div>
+
+  <!-- 📖 例文 -->
+  <ul id="exampleList" class="example-list"></ul>
+
+    <!-- ✅ 成功フィードバック -->
+  <div id="successFeedback" class="success-feedback hidden">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Great!</div>
+    <div class="success-message">正しく発音できました。</div>
+  </div>
+
+  <!-- ❌ ネイティブフレーズ：不正解フィードバック -->
+<div id="errorFeedback" class="error-feedback hidden">
+
+  <div class="error-title">Try again!</div>
+
+  <div class="error-message">
+    一部の単語が正しく認識されませんでした。
+  </div>
+
+  <!-- 単語ごとの ✓ / ✕ をJSで生成 -->
+  <div id="wordFeedback" class="word-feedback"></div>
+
+  <!-- 実際に認識された文章 -->
+  <div class="recognition-result">
+    認識結果：<span id="recognizedText"></span>
+  </div>
+
+  <div class="error-hint">
+    間違えた単語を意識して、もう一度文全体を発音してみましょう。
+  </div>
+
+</div>
+
+
+  <!-- 🔊 機能ボタン -->
+  <div class="button-group native-buttons">
+    <button onclick="startRecognitionNative()" class="btn check-btn native-check-btn">🎙 発音チェック</button>
+  </div>
+</div>
+
+
+</div>
+
+
+
+
+    <!-- Step 5: 音声認識でToioを制御(道案内コース専用) -->
+<div id="step5" class="step" style="display: none;">
+
+  <h1>Step5 動かしてみよう！</h1>
+  <h2 class="B">使える表現</h2>
+
+  <div class="grid-container-wrapper">
+    <div id="expressionContainer" class="grid-container"></div>
+  </div>
+
+  <div class="nav-button-group">
+    <button onclick="startNavigationListening()" class="btn navcheck-btn">
+      🎙 Start
+    </button>
+
+    <button onclick="stopNavigationListening()" class="btn stop-btn">
+      ⏹ Stop
+    </button>
+  </div>
+
+
+  <!-- ✅ 道案内：成功フィードバック -->
+  <div id="navigationSuccessFeedback"
+       class="success-feedback hidden">
+
+    <div class="success-icon">✓</div>
+
+    <div class="success-title">
+      Great!
+    </div>
+
+    <div class="success-message">
+      正しく発音できました。
+    </div>
+
+    <div class="recognition-result">
+      認識結果：
+      <span id="navigationSuccessText"></span>
+    </div>
+
+  </div>
+
+
+  <!-- ❌ 道案内：失敗フィードバック -->
+  <div id="navigationErrorFeedback"
+       class="error-feedback hidden">
+
+    <div class="error-title">
+      Try again!
+    </div>
+
+    <div class="error-message">
+      正しく認識されませんでした。
+    </div>
+
+    <div class="recognition-result">
+      認識結果：
+      <span id="navigationErrorText"></span>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+     <!-- ✅ 戻るボタン（全ステップ共通） -->
+     <div id="navigationButtons" class="navigation-buttons">
+        <button id="backButton" class="button back-button" style="display: none;">⬅ 戻る</button>
+
+
+    <script>
+        let selectedCourse = null;
+        let toio = null;
+        let toioCharacteristic = null;
+        let waveformStarted = false;
+        let animationId = null;
+        let scrollX = 0;
+        let voices = [];
+        let currentCourse = null;
+        let soundCharacteristic = null;
+        let recognition = null;
+        let recognitionPronunciation = null;
+        let recognitionNavigation = null;
+        let shouldRestartNavigation = false;
+        let nativePhrases = window.nativePhrases;
+        // ✅ Toio UUIDs グローバルに定義する
+          const TOIO_SERVICE_UUID = '10b20100-5b3b-4571-9508-cf3efcd7bbae';
+          const MOTOR_CHARACTERISTIC_UUID = '10b20102-5b3b-4571-9508-cf3efcd7bbae';
+          const SOUND_CHARACTERISTIC_UUID = '10b20104-5b3b-4571-9508-cf3efcd7bbae';
+
+
+
+// ✅ 正解フィードバック：緑 + 成功音
+async function flashToioGreen(duration = 2000) {
+  showFeedback("✅ 正しく発音できました！", true);
+
+  if (!ledCharacteristic) {
+    console.warn("⚠️ ToioのLEDに接続されていません（フィードバックは画面表示のみ）");
+    return;
+  }
+
+  const data = new Uint8Array([
+    0x03, Math.round(duration / 10), 0x01, 0x01,
+    0x00, 0xFF, 0x00 // 緑
+  ]);
+  await ledCharacteristic.writeValue(data);
+
+  if (soundCharacteristic) {
+    const effectMatIn = new Uint8Array([0x02, 0x04, 0xFF]); // 成功音
+    await soundCharacteristic.writeValue(effectMatIn);
+    console.log("✅ 成功音を再生しました");
+  }
+}
+
+// ❌ 不正解フィードバック：赤 + エラー音
+async function flashToioRed(duration = 2000) {
+  showFeedback("❌ 発音が違いました。もう一度トライ！", false);
+
+  if (!ledCharacteristic) {
+    console.warn("⚠️ ToioのLEDに接続されていません（フィードバックは画面表示のみ）");
+    return;
+  }
+
+  const data = new Uint8Array([
+    0x03, Math.round(duration / 10), 0x01, 0x01,
+    0xFF, 0x00, 0x00 // 赤
+  ]);
+  await ledCharacteristic.writeValue(data);
+
+  if (soundCharacteristic) {
+    const errorSound = new Uint8Array([0x02, 0x02, 0xFF]); // エラー音
+    await soundCharacteristic.writeValue(errorSound);
+    console.log("❌ エラー音を再生しました");
+  }
+}
+
+// ❓ 微妙フィードバック：黄色 + 軽めの音
+async function flashToioYellow(duration = 2000) {
+  showFeedback("❓ 微妙な発音でした。惜しい！", false);
+
+  if (!ledCharacteristic) {
+    console.warn("⚠️ ToioのLEDに接続されていません（フィードバックは画面表示のみ）");
+    return;
+  }
+
+  const data = new Uint8Array([
+    0x03, Math.round(duration / 10), 0x01, 0x01,
+    0xFF, 0xFF, 0x00 // 黄色
+  ]);
+  await ledCharacteristic.writeValue(data);
+
+  if (soundCharacteristic) {
+    const neutralSound = new Uint8Array([0x02, 0x01, 0xFF]); // 軽い音
+    await soundCharacteristic.writeValue(neutralSound);
+    console.log("❓ 微妙フィードバック音を再生しました");
+  }
+}
+
+
+// ✅ === ここからカスタムセレクト関連を追記！ ===
+const customSelect = document.getElementById("customSelect");
+const selected = document.getElementById("selectedOption");
+const options = document.getElementById("optionsList");
+const hiddenInput = document.getElementById("voiceSelect");
+
+selected.addEventListener("click", () => {
+  options.style.display = options.style.display === "none" ? "block" : "none";
+});
+
+if (options) {
+  options.querySelectorAll("div").forEach(option => {
+    option.addEventListener("click", () => {
+      const value = option.dataset.value;
+      const imgSrc = option.querySelector("img").src;
+      const text = option.textContent.trim();
+
+      const selectedInner = selected.querySelector("div");
+      selectedInner.setAttribute("data-value", value);
+      selectedInner.innerHTML = `<img src="${imgSrc}" width="20"> ${text}`;
+
+      hiddenInput.value = value;
+      options.style.display = "none";
+    });
+  });
+}
+
+
+document.addEventListener("click", (e) => {
+  if (!customSelect.contains(e.target) && options) {
+    options.style.display = "none";
+  }
+});
+
+
+
+
+
+// 🌐 発音練習用の音声認識オブジェクトを作成（Toio用と混ざらないように分離）
+function initRecognitionPronunciation() {
+  if (!window.recognitionPronunciation) {
+    recognitionPronunciation = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognitionPronunciation.lang = 'en-US';         // 英語（アメリカ）
+    recognitionPronunciation.interimResults = false; // 確定結果のみ
+    recognitionPronunciation.maxAlternatives = 1;    // 候補1つでOK
+    console.log("🎤 音声認識を初期化しました");
+  }
+}
+
+window.speechSynthesis.onvoiceschanged = () => {
+  voices = speechSynthesis.getVoices();
+  console.log("📢 利用可能な音声リスト：");
+  voices.forEach(v => console.log(`${v.name} (${v.lang})`));
+};
+
+// ✅ 音声合成（TTS）で読み上げる関数（mode: "normal" or "slow"）
+function speak(mode = "normal") {
+  const text = document.getElementById("practiceInput")?.value;
+  const lang = document.getElementById("voiceSelect")?.value;
+
+  if (!text || !lang) {
+    console.warn("⚠️ テキストまたは言語が未指定です");
+    return;
+  }
+
+  // 🌀 スピード倍率を切り替え
+  const rate = mode === "slow" ? 0.5 : 1.0;
+
+  // 文ごとに区切る（例："This is a pen. I like it."）
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+
+  function speakSentences(index = 0) {
+    if (index >= sentences.length) return;
+
+    const utterance = new SpeechSynthesisUtterance(sentences[index].trim());
+    utterance.lang = lang;
+    utterance.rate = rate;
+
+    // 🎯 一致する voice を探す（Google優先）
+    const matchingVoices = voices.filter(v => v.lang === lang);
+    const preferredVoice = matchingVoices.find(v => v.name.toLowerCase().includes("google")) || matchingVoices[0];
+
+    if (preferredVoice) utterance.voice = preferredVoice;
+
+    utterance.onend = () => speakSentences(index + 1); // 次の文へ
+    speechSynthesis.speak(utterance);
+  }
+
+  speechSynthesis.cancel(); // 前の読み上げをキャンセル
+  speakSentences();
+}
+
+
+
+// ✅ 効果音を鳴らすためのデータ（Mat in の効果音 ID: 0x04）
+const effectMatIn = new Uint8Array([0x02, 0x04, 0xFF]);
+
+// ✅ Toio に効果音再生コマンドを送る
+function playToioEffect() {
+  if (!soundCharacteristic) {
+    console.warn("🔇 サウンドCharacteristic未接続");
+    return;
+  }
+  soundCharacteristic.writeValue(effectMatIn)
+    .then(() => console.log("🔊 Toio効果音送信成功"))
+    .catch(e => console.error("⚠️ 効果音送信失敗", e));
+}
+
+//toioを発音練習コースでも動かせるようにする。
+
+// ✅ 発音チェック機能（音声認識＋Toio反応つき）
+// ✅ フィードバック表示関数
+function showFeedback(message, color = "green") {
+  const box = document.getElementById("feedback");
+  if (!box) return;
+  box.textContent = message;
+  box.style.color = color;
+  setTimeout(() => {
+    box.textContent = "";
+  }, 2000);
+}
+
+
+// ✅ 表記を整える関数
+function normalizeText(text) {
+  return text
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")       // ’ を ' に統一
+    .replace(/[.,!?"“”]/g, "")   // 句読点を削除（' は残す）
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+
+// ✅ 正解判定用の正規化
+function normalizeForComparison(text) {
+  return normalizeText(text)
+
+    // 短縮形を通常形に統一
+    .replace(/\bi'm\b/g, "i am")
+    .replace(/\byou're\b/g, "you are")
+    .replace(/\bwe're\b/g, "we are")
+    .replace(/\bthey're\b/g, "they are")
+    .replace(/\bhe's\b/g, "he is")
+    .replace(/\bshe's\b/g, "she is")
+    .replace(/\bit's\b/g, "it is")
+    .replace(/\bthat's\b/g, "that is")
+
+    .replace(/\bcan't\b/g, "cannot")
+    .replace(/\bdon't\b/g, "do not")
+    .replace(/\bdoesn't\b/g, "does not")
+    .replace(/\bdidn't\b/g, "did not")
+    .replace(/\bwon't\b/g, "will not")
+    .replace(/\bisn't\b/g, "is not")
+    .replace(/\baren't\b/g, "are not")
+    .replace(/\bwasn't\b/g, "was not")
+    .replace(/\bweren't\b/g, "were not")
+
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+
+// ✅ 発音チェック機能（音声認識＋Toio反応つき）
+function startRecognition() {
+  const speechLangCode = document.getElementById("voiceSelect").value;
+
+  initRecognitionPronunciation(speechLangCode);
+
+  const targetRaw =
+    document.getElementById("practiceInput").value;
+
+  // ★ ここを変更
+  const target = normalizeForComparison(targetRaw);
+
+  if (!target) {
+    return alert("🎯 発音したい単語を入力してください");
+  }
+
+  recognitionPronunciation.onresult = (event) => {
+    const spokenRaw =
+      event.results[0][0].transcript;
+
+    // ★ ここも変更
+    const spoken =
+      normalizeForComparison(spokenRaw);
+
+    console.log("🎯 正解文:", target);
+    console.log("🎤 認識結果:", spoken);
+
+    if (spoken === target || spoken.includes(target)) {
+
+      showFeedback(
+        "✅ 正しく発音できました！",
+        "green"
+      );
+
+      flashToioGreen();
+
+      sendtoio(
+        "yes",
+        toioCharacteristic
+      );
+
+    } else {
+
+      showFeedback(
+        `❌ 「${spokenRaw}」と聞こえました。もう一度トライ！`,
+        "red"
+      );
+
+      flashToioRed();
+    }
+  };
+
+  recognitionPronunciation.onerror = (event) => {
+    alert(
+      "⚠️ 音声認識エラー: " + event.error
+    );
+  };
+
+  try {
+
+    if (recognitionPronunciation.running) {
+
+      recognitionPronunciation.stop();
+
+      recognitionPronunciation.onend = () => {
+        recognitionPronunciation.start();
+
+        console.log(
+          "🎤 認識再スタート（onend）"
+        );
+      };
+
+    } else {
+
+      recognitionPronunciation.start();
+
+      console.log(
+        "🎤 認識スタート（初回）"
+      );
+    }
+
+  } catch (e) {
+
+    console.error(
+      "❌ startRecognition 失敗:",
+      e
+    );
+  }
+}
+
+//成功と失敗の境目 NormalizeText()で許可される範囲とは
+//Hello?	hello	hello vs hello	✅ 成功扱い
+
+//メモ機能を追加
+// ✅ メモを保存し、裸でMemoの下に表示（未分類扱いしない）
+function savePhrase() {
+  const input = document.getElementById("practiceInput").value.trim();
+  if (!input) return alert("💬 保存するフレーズを入力してください");
+
+  const saved = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+  const isDuplicate = saved.some(memo => memo.phrase === input);
+  if (isDuplicate) {
+    alert("⚠️ このフレーズはすでに保存されています！");
+    return;
+  }
+
+  const newMemo = {
+    phrase: input,
+    category: "", // ← カテゴリ未所属
+    createdAt: new Date().toISOString()
+  };
+
+  saved.push(newMemo);
+  localStorage.setItem("myPhrases", JSON.stringify(saved));
+  document.getElementById("practiceInput").value = "";
+  isMemoVisible = true;
+  document.getElementById("memoHeader").textContent = "📝 Close Memo";
+  renderMemoList();
+  showFeedback("✅ フレーズを保存しました！");
+}
+
+document.getElementById("saveMemoButton").addEventListener("click", savePhrase);
+
+let isMemoVisible = false; // ← 初期状態：非表示
+
+
+// ✅ メモ一覧を描画する関数
+// ✅ Memo一覧を描画し、裸メモは"未分類"に入れず個別に表示＆ドラッグ可能にする
+function renderMemoList() {
+  const listContainer = document.getElementById("memoList");
+  const searchBox = document.getElementById("searchInput");
+  const keyword = searchBox ? searchBox.value.trim().toLowerCase() : "";
+
+  const saved = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+  const folders = JSON.parse(localStorage.getItem("myFolders") || "[]");
+
+
+    // ✅【ここに追加】現在開いているフォルダを取得
+  const openedFolders = new Set();
+  document.querySelectorAll(".folder-wrapper").forEach(wrapper => {
+    const group = wrapper.querySelector(".memo-group");
+    if (group && group.style.display === "block") {
+      const name = wrapper.dataset.folderName;
+      if (name) openedFolders.add(name);
+    }
+  });
+
+  // 🔍 キーワードでフィルタ
+  const filtered = saved.filter(memo =>
+    memo.phrase.toLowerCase().includes(keyword)
+  );
+
+  listContainer.innerHTML = "";
+
+  // ✅ 裸メモを別で分けて保存
+  const bareMemos = [];
+  const grouped = filtered.reduce((acc, memo) => {
+    if (!memo.category || memo.category.trim() === "") {
+      bareMemos.push(memo);
+      return acc;
+    }
+    const cat = memo.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(memo);
+    return acc;
+  }, {});
+
+  // 📅 各フォルダ内を新しい順でソート
+  Object.keys(grouped).forEach(cat => {
+    grouped[cat].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  });
+
+  // 📂 未分類フォルダを表示に含める（中にメモがある場合のみ）
+  const allFolders = [...folders];
+  if (grouped["未分類"] && !allFolders.includes("未分類")) {
+    allFolders.unshift("未分類");
+  }
+
+  // ✅ 裸メモ（カテゴリなし）を個別に上部表示
+  if (bareMemos.length > 0) {
+    const bareWrapper = document.createElement("div");
+    bareWrapper.className = "bare-memo-wrapper";
+
+    bareMemos.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    bareMemos.forEach((memo, index) => {
+      const item = document.createElement("div");
+      item.className = "memo-item";
+      item.setAttribute("draggable", "true");
+      item.dataset.index = index;
+
+      item.innerHTML = `
+        <div class="memo-text">${memo.phrase}</div>
+        <div class="memo-actions">
+          <button onclick="deleteMemoByPhrase('${memo.phrase}', '')">🗑️</button>
+        </div>
+      `;
+
+      bareWrapper.appendChild(item);
+    });
+
+    listContainer.appendChild(bareWrapper);
+  }
+
+
+// 📦 フォルダ表示
+allFolders.forEach(category => {
+  const folderContainer = document.createElement("div");
+  folderContainer.className = "folder-wrapper folder-item";
+  folderContainer.dataset.folderName = category;
+
+  const header = document.createElement("div");
+  header.className = "folder-header";
+
+  const displayName = category.replace(/\s*\(\d+\)$/, "");
+
+  const folderMain = document.createElement("div");
+  folderMain.className = "folder-main";
+
+  const icon = document.createElement("img");
+  icon.src = "folder.png";
+  icon.className = "folder-icon";
+
+  let titleElement;
+
+  // ✅ 最初の表示が input か span かで分岐（inputにはkeydownイベント不要）
+  if (category.startsWith("新しいフォルダー")) {
+    titleElement = document.createElement("span");
+    titleElement.className = "folder-title-text";
+    titleElement.textContent = displayName;
+  } else {
+    titleElement = document.createElement("span");
+    titleElement.className = "folder-title-text";
+    titleElement.textContent = displayName;
+  }
+
+  // ✅ 新旧問わず右クリックで名前変更モードに入る
+  titleElement.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "folder-rename-input";
+    input.value = titleElement.textContent;
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const newName = input.value.trim();
+        if (!newName) return;
+
+        const folders = JSON.parse(localStorage.getItem("myFolders") || "[]");
+        if (folders.includes(newName)) {
+          alert("⚠️ 同じ名前のフォルダがあります");
+          return;
+        }
+
+        const updatedFolders = folders.map(f => f === category ? newName : f);
+        localStorage.setItem("myFolders", JSON.stringify(updatedFolders));
+
+        const phrases = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+        phrases.forEach(p => {
+          if (p.category === category) p.category = newName;
+        });
+        localStorage.setItem("myPhrases", JSON.stringify(phrases));
+
+        renderMemoList();
+      }
+    });
+
+    titleElement.replaceWith(input);
+    input.focus();
+  });
+
+  // ✅ 削除ボタン作成
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "folder-delete-btn";
+  deleteBtn.textContent = "🗑️";
+  deleteBtn.dataset.category = category;
+  deleteBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (confirm(`「${displayName}」フォルダを削除しますか？`)) {
+      deleteFolder(category);
+    }
+  });
+
+  folderMain.appendChild(icon);
+  folderMain.appendChild(titleElement);
+  folderMain.appendChild(deleteBtn);
+  header.appendChild(folderMain);
+  folderContainer.appendChild(header);
+
+  const memoList = document.createElement("div");
+  memoList.className = "memo-group";
+  memoList.style.display = "none";
+
+  const memos = grouped[category] || [];
+  memos.forEach((memo) => {
+    const container = document.createElement("div");
+    container.className = "memo-item";
+
+    container.innerHTML = `
+      <div class="memo-text">${memo.phrase}</div>
+      <div class="memo-actions">
+        <button onclick="deleteMemoByPhrase('${memo.phrase}', '${memo.category || "未分類"}')">🗑️</button>
+      </div>
+    `;
+
+    memoList.appendChild(container);
+  });
+
+  // ✅ 開いていたフォルダなら開いたままにする
+  if (openedFolders.has(category)) {
+    memoList.style.display = "block";
+  }
+
+  // 📂 フォルダ開閉イベント
+  header.addEventListener("click", () => {
+    memoList.style.display = memoList.style.display === "block" ? "none" : "block";
+  });
+
+  folderContainer.appendChild(memoList);
+  listContainer.appendChild(folderContainer);
+});
+
+
+// 🧠 ドラッグイベントを1回だけ登録
+document.addEventListener("dragstart", function (e) {
+  if (e.target.classList.contains("memo-item") && e.target.draggable) {
+    const index = e.target.dataset.index;
+    e.dataTransfer.setData("text/plain", index);
+
+    // ✅ これだけで赤マークは消える！
+    e.dataTransfer.effectAllowed = "move";
+  }
+});
+
+
+  // 📥 ドロップ処理：フォルダに入れる
+  document.querySelectorAll(".folder-item").forEach(folder => {
+    folder.addEventListener("dragover", e => e.preventDefault());
+
+    folder.addEventListener("drop", e => {
+      e.preventDefault();
+      const index = e.dataTransfer.getData("text/plain");
+      const folderName = folder.dataset.folderName;
+
+      const saved = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+      const bareMemos = saved.filter(m => !m.category || m.category === "");
+      const bareMemo = bareMemos[index];
+      if (bareMemo) {
+        bareMemo.category = folderName;
+        localStorage.setItem("myPhrases", JSON.stringify(saved));
+        renderMemoList();
+      }
+    });
+  });
+
+  // 🔍 検索状態または明示表示時だけ表示
+  listContainer.style.display = (isMemoVisible || keyword !== "") ? "block" : "none";
+}
+
+
+
+
+
+
+
+
+
+
+
+// ✅ メモ削除（phraseとcategoryで確実に一致削除）
+function deleteMemoByPhrase(phrase, category = "未分類") {
+  let saved = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+  saved = saved.filter(
+   memo => !(memo.phrase === phrase && (memo.category || "") === category)
+  );
+  localStorage.setItem("myPhrases", JSON.stringify(saved));
+  renderMemoList();
+}
+
+// 🔥 フォルダ削除機能（中のメモも一緒に削除）
+function deleteFolder(category) {
+  // 1. フォルダ一覧から削除
+  let folders = JSON.parse(localStorage.getItem("myFolders") || "[]");
+  folders = folders.filter(f => f !== category);
+  localStorage.setItem("myFolders", JSON.stringify(folders));
+
+  // 2. 該当フォルダに属するメモも削除
+  let phrases = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+  phrases = phrases.filter(p => (p.category || "未分類") !== category);
+  localStorage.setItem("myPhrases", JSON.stringify(phrases));
+
+  // 3. 表示更新
+  renderMemoList();
+}
+
+
+
+// ✅ トグル
+document.getElementById("memoHeader").addEventListener("click", () => {
+  isMemoVisible = !isMemoVisible;
+
+  const memoList = document.getElementById("memoList");
+  const header = document.getElementById("memoHeader");
+  const keyword = document.getElementById("searchInput").value.trim();
+
+  if (isMemoVisible || keyword !== "") {
+    memoList.style.display = "block";
+    header.textContent = "📝 Close Memo";
+  } else {
+    memoList.style.display = "none";
+    header.textContent = "📝 Open Memo";
+  }
+});
+
+//フォルダを追加
+function addFolder(name) {
+  const folders = JSON.parse(localStorage.getItem("myFolders") || "[]");
+
+  // 🔁 すでにある名前の重複チェック
+  if (folders.includes(name)) {
+    alert("⚠️ 同じ名前のフォルダがすでにあります");
+    return;
+  }
+
+  folders.push(name);
+  localStorage.setItem("myFolders", JSON.stringify(folders));
+  renderMemoList(); // 表示を更新
+}
+// ✅ 新しいフォルダーを一番上に追加して、名前入力を可能にする処理（⬇ここから）
+document.getElementById("addFolderBtn").addEventListener("click", () => {
+  const folders = JSON.parse(localStorage.getItem("myFolders") || "[]");
+console.log("🟡 フォルダ追加ボタンが押されました！");
+  const tempName = "新しいフォルダー";
+  let uniqueName = tempName;
+  let counter = 1;
+
+  while (folders.includes(uniqueName)) {
+    counter++;
+    uniqueName = `${tempName} (${counter})`;
+  }
+
+  folders.unshift(uniqueName); // 🔝 一番上に追加
+  localStorage.setItem("myFolders", JSON.stringify(folders));
+  console.log(JSON.parse(localStorage.getItem("myFolders")));
+
+   // ✅ メモ表示を強制的にONに
+  isMemoVisible = true;
+  document.getElementById("memoHeader").textContent = "📝 Close Memo";
+
+  renderMemoList();
+
+
+  // 🌟 追加された input を取得してフォーカス＆選択
+  setTimeout(() => {
+    const inputs = document.querySelectorAll(".folder-rename-input");
+    if (inputs.length > 0) {
+      inputs[0].focus();
+      inputs[0].select(); // テキスト選択状態にする
+    }
+  }, 0);
+});
+
+document.getElementById("memoList").addEventListener("keydown", function (e) {
+  if (e.target.classList.contains("folder-rename-input") && e.key === "Enter") {
+    const oldName = e.target.defaultValue;
+    const newName = e.target.value.trim();
+
+    if (!newName) return alert("⚠️ フォルダ名を入力してください");
+
+    let folders = JSON.parse(localStorage.getItem("myFolders") || "[]");
+    folders = folders.map(f => (f === oldName ? newName : f));
+
+    let phrases = JSON.parse(localStorage.getItem("myPhrases") || "[]");
+    phrases = phrases.map(p => (
+      p.category === oldName ? { ...p, category: newName } : p
+    ));
+
+    localStorage.setItem("myFolders", JSON.stringify(folders));
+    localStorage.setItem("myPhrases", JSON.stringify(phrases));
+
+    renderMemoList(); // ←再描画
+  }
+});
+
+
+// ✅ ページ読み込み時：非表示スタート & 1回だけ renderMemoList 実行
+// ✅ ページ読み込み時：非表示スタート & 1回だけ renderMemoList 実行
+window.addEventListener("load", () => {
+  isMemoVisible = false;
+  document.getElementById("memoList").style.display = "none";
+  document.getElementById("memoHeader").textContent = "📝 Open Memo";
+  renderMemoList();
+
+  // ✅ ノイズ検出モデルの初期化（Teachable Machine）
+  //initNoiseDetectionModel()
+    //.then(() => console.log("✅ ノイズ検出モデル初期化完了"))
+    //.catch(err => console.error("❌ ノイズ検出モデル初期化エラー:", err));
+});
+
+
+// ✅ 先に定義！ 学習必要
+function updateSelectedVoiceDisplay(langCode) {
+  const languageOptions = {
+    "en-US": { label: "American English", flag: "us" },
+    "en-GB": { label: "British English", flag: "gb" },
+    "es-ES": { label: "Español", flag: "es" },
+    "ko-KR": { label: "한국어", flag: "kr" },
+    "zh-CN": { label: "中文", flag: "cn"}
+  };
+
+  const info = languageOptions[langCode];
+  if (!info) return;
+
+  const selectedDiv = document.getElementById("selectedOption");
+  if (!selectedDiv) return;
+
+  selectedDiv.innerHTML = `
+    <div data-value="${langCode}">
+      <img src="https://flagcdn.com/w40/${info.flag}.png" width="20"> ${info.label}
+    </div>
+  `;
+
+  document.getElementById("voiceSelect").value = langCode;
+}
+
+
+//HTMLの読み込みが完了したら中のコードを実行してね！という意味である。
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("🌐 DOMContentLoaded fired!");
+
+  // ✅ 言語ボタンのクリックで window.currentLanguage を設定
+  document.querySelectorAll('.language-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const selectedLang = button.getAttribute('data-language');
+      window.currentLanguage = selectedLang;
+      console.log("🌐 言語が選ばれました:", selectedLang);
+
+      // 🌐 音声認識と表示の更新（ここに追加）
+      const speechLangCode = selectedLang === 'es' ? 'es-ES' :
+                             selectedLang === 'ko' ? 'ko-KR' :
+                             selectedLang === 'zh' ? 'zh-CN' : //zhはChineseの略で言語コードである。CNは地域コード。zh-CNだったら中国で使用される中国語という事になる。zh^TWなら台湾で使われる中国語。
+                             selectedLang === 'en' ? 'en-US' : 'en-GB';
+                             
+      initRecognitionPronunciation(speechLangCode);  // 発音チェック用音声認識
+      updateSelectedVoiceDisplay(speechLangCode);    // 表示を更新
+
+      // activeクラスを更新
+      document.querySelectorAll('.language-button').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
+
+  // ✅ ステップ管理（もともとのやつ）
+  const steps = document.querySelectorAll('.step');
+  const backButton = document.getElementById('backButton');
+  let currentStep = 0;
+
+  function showStep(stepId) {
+    steps.forEach(step => {
+      step.style.display = (step.id === stepId) ? 'block' : 'none';
+    });
+
+    const currentStepElement = document.getElementById(stepId);
+    if (!currentStepElement) {
+      console.warn(`❌ 指定された stepId "${stepId}" が見つかりません`);
+      return;
+    }
+
+    const currentStepIndex = [...steps].findIndex(step => step.id === stepId);
+    currentStep = currentStepIndex;
+    currentStepId = stepId;
+
+    console.log(`🚀 現在のステップ: ${stepId}`);
+
+    if (stepId === 'step4-pronunciation') {
+      const input = document.getElementById('practiceInput');
+      if (input) input.value = '';
+      speechSynthesis.cancel();
+    }
+
+    if (backButton) {
+      backButton.style.display = currentStepIndex <= 0 ? 'none' : 'inline-block';
+    }
+
+    const logTable = document.getElementById('logTable');
+    if (logTable) {
+      const shouldShowLog =
+        stepId === 'step5' ||
+        stepId === 'step4-verbsAdverbs';
+
+      logTable.style.display = shouldShowLog ? 'table' : 'none';
+    }
+  }
+
+
+
+  // ✅ waveCanvas の表示制御 & 波形描画処理の起動
+  /*const waveCanvasContainer = document.getElementById('waveCanvasContainer');
+  if (waveCanvasContainer) {
+  if (stepId === 'step4-verbsAdverbs' || stepId === 'step5') {
+    waveCanvasContainer.style.display = 'block';
+    // ❌ startWaveform() は呼ばない！
+  } else {
+    waveCanvasContainer.style.display = 'none';
+    stopWaveform();
+    waveformStarted = false;
+  }
+} */
+
+
+// showStep関数の下に追記！
+document.getElementById("homeIcon").addEventListener("click", () => {
+  showStep('step1');
+
+  // Step1特有の初期化処理（任意）
+  document.getElementById("goToStep2").disabled = true;
+  document.getElementById("goToStep2").style.display = "none";
+});
+
+/*
+function stopWaveform() {
+
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+    console.log("🛑 波形描画を停止しました");
+  }
+}
+
+
+
+　 async function startWaveform() {
+  console.log("🎬 startWaveform() 呼び出された！");
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    console.log("🎙️ マイク取得成功！");
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioCtx.createAnalyser();
+    const source = audioCtx.createMediaStreamSource(stream);
+    source.connect(analyser);
+    analyser.fftSize = 512;
+
+    const bufferLength = analyser.fftSize;
+    const dataArray = new Uint8Array(bufferLength);
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      console.warn("⚠️ waveCanvas の context を取得できませんでした！");
+      return;
+    }
+
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#f39c12';
+
+   function drawBars() {
+  animationId = requestAnimationFrame(drawBars);
+  analyser.getByteFrequencyData(dataArray); // 音量の周波数スペクトル
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // 前の波を消す
+
+  const barWidth = 4;
+  const gap = 2;
+  const barCount = Math.floor(canvas.width / (barWidth + gap));
+
+  for (let i = 0; i < barCount; i++) {
+    const barHeight = dataArray[i] / 255 * canvas.height;
+    ctx.fillStyle = `hsl(${i / barCount * 120}, 80%, 60%)`;
+    ctx.fillRect(i * (barWidth + gap), canvas.height - barHeight, barWidth, barHeight);
+  }
+}
+
+
+    drawBars();
+  } catch (err) {
+    console.error("❌ マイク取得に失敗:", err);
+  }
+}
+*/
+
+// ========================================
+// 道案内コース：フィードバック
+// ========================================
+
+// ✅ レベル選択と表現更新（英語のみ）
+window.EXPRESSIONS = {
+    en: {
+        beginner: ['go', 'back', 'right', 'left', 'stop'],
+        intermediate: [
+            'go straight',
+            'turn right',
+            'turn left',
+            'go back',
+            'move and turn right',
+            'move and turn left'
+        ],
+        advanced: [
+            'hurry up and go straight',
+            'move forward without hesitation',
+            'keep going straight',
+            'head towards the north',
+            'go forward at a slow pace',
+            'turn to your right',
+            'turn to your left',
+            'take a step back',
+            'go straight and turn right',
+            'go straight and turn left',
+            'turn left and go straight',
+            'turn right and go straight'
+        ]
+    },
+
+    es: {
+        beginner: ['ve', 'regresa', 'derecha', 'izquierda', 'detente'],
+        intermediate: [
+            've recto',
+            'gira a la derecha',
+            'gira a la izquierda',
+            'da la vuelta',
+            'detente',
+            'avanza y gira a la derecha',
+            'avanza y gira a la izquierda'
+        ],
+        advanced: [
+            'apresúrate y ve recto',
+            'avanza sin dudar',
+            'sigue recto',
+            'dirígete hacia el norte',
+            'tómatelo con calma y ve recto',
+            'avanza a un ritmo lento',
+            'gira hacia tu derecha',
+            'gira hacia tu izquierda',
+            'da un paso atrás',
+            've recto y gira a la derecha',
+            've recto y gira a la izquierda',
+            'gira a la izquierda y ve recto',
+            'gira a la derecha y ve recto'
+        ]
+    },
+
+    ko: {
+      beginner: ['가', '돌아가', '오른쪽', '왼쪽', '멈춰'],
+    intermediate: [
+        '직진해',
+        '오른쪽으로 돌아',
+        '왼쪽으로 돌아',
+        '유턴해',
+        '멈춰',
+        '앞으로 가서 오른쪽으로 돌아',
+        '앞으로 가서 왼쪽으로 돌아'
+    ],
+    advanced: [
+        '서둘러서 직진해',
+        '망설이지 말고 가',
+        '계속 직진해',
+        '북쪽으로 가',
+        '천천히 직진해',
+        '느린 속도로 가',
+        '오른쪽으로 꺾어',
+        '왼쪽으로 꺾어',
+        '한 걸음 물러서',
+        '직진하고 오른쪽으로 돌아',
+        '직진하고 왼쪽으로 돌아',
+        '왼쪽으로 돌고 직진해',
+        '오른쪽으로 돌고 직진해'
+    ]
+    },
+
+    zh: {
+       beginner: ['走', '回来', '右转', '左转', '停'],
+  intermediate: [
+    '直走',
+    '向右转',
+    '向左转',
+    '往回走',
+    '停',
+    '走然后右转',
+    '走然后左转'
+  ],
+  advanced: [
+    '快点直走',
+    '毫不犹豫地前进',
+    '继续直走',
+    '朝北走',
+    '慢慢走直线',
+    '慢慢往前走',
+    '向你的右边转',
+    '向你的左边转',
+    '后退一步',
+    '直走然后右转',
+    '直走然后左转',
+    '左转然后直走',
+    '右转然后直走'
+    ]
+    }
+};
+
+
+window.VERB_ADVERB_LIST = {
+    en: [
+        'move slowly',
+        'move backwards slowly',
+        'move slightly to the left',
+        'move slightly to the right',
+        'turn around slowly',
+        'walk slowly',
+        'move fast',
+        'move backwards quickly',
+        'move fast to the left',
+        'move fast to the right',
+        'turn around quickly',
+        'run quickly',
+       
+      
+    ],
+        es: [
+        'muévete suavemente',
+        'muévete despacio',
+        'avanza lentamente',
+        'camina despacio',
+        'muévete rápido',
+        'corre rápido',
+        'gira rápidamente',
+        'gira con calma'
+    ],
+    ko: [
+        '부드럽게 움직여',
+    '천천히 움직여',
+    '천천히 나아가',
+    '느릿하게 걸어',
+    '빨리 움직여',
+    '빠르게 달려',
+    '빠르게 돌아',
+    '차분하게 돌아'
+    ],
+    zh: [
+      '轻轻地移动',         // move gently
+    '慢慢地移动',         // move slowly
+    '缓慢地前进',         // progress slowly
+    '慢慢地往前走',       // move forward slowly
+    '快速移动',           // move fast
+    '快速奔跑',           // run quickly
+    '慢慢走路',           // walk slowly
+    '迅速转身'            // turn around quickly
+    ]
+};
+
+
+window.hideNavigationFeedback = function() {
+  const success =
+    document.getElementById("navigationSuccessFeedback");
+
+  const error =
+    document.getElementById("navigationErrorFeedback");
+
+  if (success) {
+    success.classList.add("hidden");
+  }
+
+  if (error) {
+    error.classList.add("hidden");
+  }
+}
+
+window.showNavigationSuccessFeedback = function(spoken) {
+
+  window.hideNavigationFeedback();
+
+  const feedback =
+    document.getElementById("navigationSuccessFeedback");
+
+  const text =
+    document.getElementById("navigationSuccessText");
+
+  if (!feedback) {
+    console.warn("⚠️ navigationSuccessFeedback が見つかりません");
+    return;
+  }
+
+  // 認識結果を更新
+  if (text) {
+    text.textContent = spoken;
+  }
+
+  // 一度完全に隠す
+  feedback.classList.add("hidden");
+
+  // ブラウザに再描画させる
+  void feedback.offsetWidth;
+
+  // カード全体をもう一度表示
+  feedback.classList.remove("hidden");
+};
+
+window.showNavigationErrorFeedback = function(spoken) {
+  hideNavigationFeedback();
+
+  const feedback =
+    document.getElementById("navigationErrorFeedback");
+
+  const text =
+    document.getElementById("navigationErrorText");
+
+  if (!feedback) return;
+
+  if (text) {
+    text.textContent = spoken;
+  }
+
+  feedback.classList.remove("hidden");
+}
+
+
+
+
+
+let recognitionInitialized = false;
+
+window.startNavigationListening = function () {
+
+    // ✅ Startを押したら現在のFeedbackを消す
+  if (selectedCourse === "navigation") {
+    window.hideNavigationFeedback();
+  }
+
+  if (selectedCourse === "verbsAdverbs") {
+    window.hideVerbsAdverbsFeedback();
+  }
+
+  console.log("🚀 startNavigationListening 呼び出された！");
+
+  window.hideNavigationFeedback();
+  console.log("🚀 startNavigationListening 呼び出された！");
+  console.log("🌐 現在の言語:", window.currentLanguage);
+  console.log("🔍 recognitionNavigation =", recognitionNavigation);
+
+  const langMap = {
+    en: 'en-US',
+    es: 'es-ES',
+    ko: 'ko-KR',
+    zh: 'zh-CN'
+  };
+  const targetLang = langMap[window.currentLanguage || 'en'];
+
+  // ❗常に言語を確認し、違っていれば再初期化
+  if (!recognitionNavigation || recognitionNavigation.lang !== targetLang) {
+    recognitionNavigation = initRecognitionNavigation(window.currentLanguage || 'en');
+    if (!recognitionNavigation) {
+      alert("⚠️ 音声認識がまだ準備できていません（認識オブジェクトが null）");
+      return;
+    }
+
+    recognitionNavigation.onerror = (event) => {
+      const error = event.error;
+      if (error === "no-speech" || error === "aborted") return;
+
+      let friendlyMessage = `⚠️ エラー: ${error}`;
+      if (error === "audio-capture") {
+        friendlyMessage = "🎙️ マイクが見つかりませんでした。";
+      } else if (error === "not-allowed" || error === "service-not-allowed") {
+        friendlyMessage = "🚫 マイクの使用がブロックされています。";
+      }
+      logRecognition(friendlyMessage);
+      console.error("Recognition error:", error);
+    };
+
+    recognitionNavigation.onend = () => {
+      console.log("🛑 音声認識終了（再スタートしません）");
+    };
+
+    recognitionInitialized = true;
+  }
+
+  try {
+    recognitionNavigation.start();
+    console.log("🧭 ナビ音声認識スタート！");
+  } catch (e) {
+    console.error("❌ 音声認識スタートに失敗:", e);
+  }
+};
+
+
+window.stopNavigationListening = function () {
+
+    // ✅ Stopを押したら現在のFeedbackを消す
+  if (selectedCourse === "navigation") {
+    window.hideNavigationFeedback();
+  }
+
+    if (selectedCourse === "verbsAdverbs") {
+    window.hideVerbsAdverbsFeedback();
+  }
+
+
+  //フィードバックを消す
+  if (!recognitionNavigation) {
+    console.warn("🛑 stopNavigationListening 呼び出されたが、初期化されていません");
+    return;
+  }
+
+  recognitionNavigation.stop();
+  console.log("🛑 ナビ音声認識ストップ！");
+  stopWaveform(); //波形もStop
+  
+};
+
+
+
+// ✅ LED制御用UUID（色フィードバック：緑・赤・黄などを光らせる）
+// ✅ LED制御用のUUID（Toioを光らせるために必要！）
+const LED_CHARACTERISTIC_UUID = "10b20103-5b3b-4571-9508-cf3efcd7bbae"; // 🔰 これをグローバル定義しておいて！
+
+
+// toioをつなげる
+async function connectToio() {
+  const robotLog = document.getElementById('robotLog');
+
+  if (toio) {
+    console.warn("⚠️ すでにToioに接続済みです");
+    robotLog.insertAdjacentHTML('afterbegin', '🔄 すでに接続済みです<br>');
+    showStep("step2"); // ✅ すでに接続済みでもStep2へ進む
+    return;
+  }
+
+  try {
+    const device = await navigator.bluetooth.requestDevice({
+      filters: [{ services: [TOIO_SERVICE_UUID] }]
+    });
+
+    robotLog.insertAdjacentHTML('afterbegin', 'サーバーに接続しています...<br>');
+
+    const server = await device.gatt.connect();
+    const service = await server.getPrimaryService(TOIO_SERVICE_UUID);
+
+    // ✅ モーター制御
+    toioCharacteristic = await service.getCharacteristic(MOTOR_CHARACTERISTIC_UUID);
+    toio = toioCharacteristic;
+
+    // ✅ サウンド制御
+    soundCharacteristic = await service.getCharacteristic(SOUND_CHARACTERISTIC_UUID);
+    console.log("🔊 Sound characteristic 接続完了");
+
+    // ✅ LED制御
+    ledCharacteristic = await service.getCharacteristic(LED_CHARACTERISTIC_UUID);
+    console.log("💡 LED characteristic 接続完了");
+
+    robotLog.insertAdjacentHTML('afterbegin', '✅ 接続に成功しました!<br>');
+
+    document.getElementById('connectButton').disabled = true;
+    document.getElementById('goToStep2').disabled = false;
+
+    device.addEventListener('gattserverdisconnected', () => {
+      robotLog.insertAdjacentHTML('afterbegin', '⚠️ Toioが切断されました<br>');
+      toioCharacteristic = null;
+      soundCharacteristic = null;
+      ledCharacteristic = null;
+      toio = null;
+    });
+
+  } catch (error) {
+    robotLog.insertAdjacentHTML('afterbegin', `❌ 接続エラー: ${error.message}<br>`);
+    console.error('Toio接続エラー:', error);
+
+    document.getElementById('connectButton').disabled = false;
+    document.getElementById('goToStep2').disabled = true;
+
+    toio = null;
+    toioCharacteristic = null;
+    soundCharacteristic = null;
+    ledCharacteristic = null;
+  }
+
+  // ✅ 成功・失敗にかかわらず Step2 に進む
+  showStep("step2");
+}
+
+
+
+
+
+       // ✅ レベル選択と表現更新
+
+
+// ✅ container を定義（HTML内のidと一致させる）
+const container = document.getElementById("expressionContainer-verbsAdverbs");
+VERB_ADVERB_LIST.en.forEach(expression => {
+    const button = document.createElement("button");
+    button.innerText = expression;
+    button.classList.add("expression-btn");
+    button.addEventListener("click", () => {
+        sendCommand("verbsAdverbs", expression);
+    });
+    container.appendChild(button);
+});
+
+ 
+
+
+
+
+  //消すかもしれない
+  async function executeCommand(command, toio, language = "en", level = "beginner") {
+    console.log("executeCommand CALLED");
+    console.log("Command:", command);
+    console.log("Language:", language, "| Level:", level);
+
+    const handler = window.toioCommandHandlers?.[command];
+    console.log("Handler:", typeof handler === "function" ? "Exists 〇" : "None ×");
+
+    const commandSet = window.getToioCommand?.(language, level);
+    const commandBinary = commandSet?.[command];
+
+    if (!toio || typeof toio.writeValue !== 'function') {
+        console.error("Toio is not connected or invalid.");
+        return;
+    }
+
+    if (typeof handler === "function") {
+        try {
+            console.log("Executing handler...");
+            await handler(toio);
+        } catch (err) {
+            console.error(`Error executing handler for '${command}':`, err);
+        }
+        return;
+    }
+
+    if (commandBinary instanceof Uint8Array) {
+        try {
+            console.log("Sending binary command...");
+            await toio.writeValue(commandBinary);
+        } catch (err) {
+            console.error(`Failed to send command '${command}':`, err);
+        }
+    } else {
+        console.warn(`Command '${command}' is not defined.`);
+    }
+}
+
+
+/* async:非同期関数にすることで、後に awaitが使用可能。
+typeof 変数や値のデータ型を文字列で変換する。 typeof 123 = "number", typeof "Hello = "string" if (typeof handler === "function") handlerが関数なら実行していい！*/
+
+
+function insertLevelSnippets(language = "en") {
+  const levelLabel = {
+    beginner: 'かんたん',
+    intermediate: 'ふつう',
+    advanced: 'むずかしい'
+  };
+
+  ['beginner', 'intermediate', 'advanced'].forEach(level => {
+    // スニペットの例文配列（各レベルから1つだけ例文を表示）
+    const examples = EXPRESSIONS[language]?.[level]?.slice(0, 1) || [];
+
+    const snippetText = examples.map(e => {
+      const emoji = TRANSLATIONS[language]?.[e] || '訳なし';
+      return `${e}（${emoji}）`;
+    }).join(', ');
+
+    const container = document.querySelector(`.example-snippet[data-for="${level}"]`);
+    if (container) {
+      container.innerHTML = `<span class="snippet-label">例:</span> ${snippetText}`;
+    } else {
+      console.warn(`⚠️ スニペット表示先が見つかりません: level=${level}`);
+    }
+  });
+
+  console.log(`📌 スニペットを${language}で更新しました`);
+  console.log("✅ 表示される例文:", EXPRESSIONS[language]);
+console.log("✅ 対応する絵文字:", TRANSLATIONS[language]);
+}
+
+
+
+// ✅ 初期設定（前回の選択を復元 or デフォルト英語）
+let selectedLanguage = localStorage.getItem('selectedLanguage') || "en";
+let selectedLevel = localStorage.getItem('selectedLevel') || 'beginner';
+let currentToioCommand = window.getToioCommand(selectedLanguage, selectedLevel);
+let lastStep4Id = null;
+
+console.log(`🌍 初期言語: ${selectedLanguage}, 🚀 初期Toioコマンド:`, currentToioCommand);
+
+// ✅ スニペット初期表示
+insertLevelSnippets(selectedLanguage);
+
+// ✅ 言語切り替え関数（共通処理）
+function handleLanguageChange(langCode, speechLangCode) {
+  // スタイル更新
+  document.querySelectorAll('.language-button').forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.language-button[data-language="${langCode}"]`)?.classList.add('selected');
+
+  // 状態保存
+  selectedLanguage = langCode;
+  localStorage.setItem('selectedLanguage', langCode);
+
+  // Toioコマンド更新
+  currentToioCommand = window.getToioCommand(langCode, selectedLevel);
+
+  // 音声認識の言語を更新（navigation用）
+  if (window.recognitionNavigation) {
+    recognitionNavigation.lang = speechLangCode;
+    console.log(`🗣️ 音声認識の言語を ${speechLangCode} に設定しました`);
+  } else {
+    console.log("⏳ Navigation音声認識はまだ初期化されていません");
+  }
+
+  // ステップ移動
+  showStep("step3");
+
+  // 表現更新（選択済みレベル）
+  if (selectedLevel) {
+    updateExpressions(langCode, selectedLevel);
+  }
+
+  // スニペット更新
+   insertLevelSnippets(langCode);  // ← langCodeを直接使う！
+}
+
+// ✅ 各言語ボタンのイベント登録
+document.querySelector('.language-button[data-language="en"]')
+  .addEventListener("click", () => handleLanguageChange("en", "en-US"));
+
+document.querySelector('.language-button[data-language="es"]')
+  .addEventListener("click", () => handleLanguageChange("es", "es-ES"));
+
+document.querySelector('.language-button[data-language="ko"]')
+  .addEventListener("click", () => handleLanguageChange("ko", "ko-KR"));
+
+  
+document.querySelector('.language-button[data-language="zh"]')
+  .addEventListener("click", () => handleLanguageChange("zh", "zh-CN"));
+
+// ✅ Step3の「次へ」ボタンはもう使わないので削除（完全自動化のため）
+// document.getElementById("goToStep3").addEventListener("click", () => {
+//     showStep("step3");
+// });
+
+
+// ✅ Toio にコマンドを送る関数（このままでOK）
+async function moveToio(command) {
+    if (!toioCharacteristic) {
+        console.warn("⚠️ Toio がまだ接続されていません！");
+        return;
+    }
+
+    if (!command) {
+        console.warn("⚠️ 送信するコマンドが未定義です！");
+        return;
+    }
+
+    if (!(command instanceof Uint8Array)) {
+        console.warn("⚠️ 渡されたコマンドが Uint8Array ではありません！");
+        return;
+    }
+
+    try {
+        await toioCharacteristic.writeValue(command);
+        console.log(`🚀 Toio にコマンドを送信:`, command);
+    } catch (error) {
+        console.error("❌ コマンド送信エラー（Toio が切断されている可能性も）:", error);
+    }
+}
+
+
+
+//コースによって音声認識の方法を変更している。
+document.querySelectorAll('.course-button').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedCourse = button.dataset.course;
+    console.log("✅ 選んだコース:", selectedCourse);
+
+    // 🔷 ボタンのハイライト
+    document.querySelectorAll('.course-button').forEach(btn => btn.classList.remove('selected'));
+    button.classList.add('selected');
+
+    // 🧹 念のため、すべての recognition を停止
+    try { recognitionNavigation.abort(); } catch (e) {}
+    try { recognitionPronunciation.abort(); } catch (e) {}
+
+    // ✅ コース別に認識エンジン起動＆Step4へ分岐
+    if (selectedCourse === "navigation") {
+      lastStep4Id = 'step4-navigation';
+      showStep("step4-navigation");
+      setupNavigationLevels();
+
+      // ✅ 音声認識はスタートしない！ボタンでスタートする
+      const startButton = document.getElementById("startNavigationButton");
+      if (startButton) startButton.style.display = "inline-block";
+
+      console.log("🚗 道案内コースのレベル選択画面へ");
+
+    } else if (selectedCourse === "pronunciation") {
+      lastStep4Id = 'step4-pronunciation';
+      showStep("step4-pronunciation");
+
+      console.log("🗣️ 発音コースへ");
+
+    } else if (selectedCourse === "verbsAdverbs") {
+  lastStep4Id = 'step4-verbsAdverbs';
+  showStep("step4-verbsAdverbs");
+//学習必要
+  const voiceLang = document.getElementById("voiceSelect")?.value || "en-US";
+  const langCode = voiceLang.startsWith("es") ? "es" :
+                   voiceLang.startsWith("ko") ? "ko" :
+                   voiceLang.startsWith("zh") ? "zh" :
+                 "en";
+updateExpressionsVerbsAdverbs(langCode);
+
+
+  console.log("🎭 動作と表現コース Step4へ");
+
+ } else if (selectedCourse === "nativephrase") {
+  lastStep4Id = 'step4-nativephrases';
+  showStep("step4-nativephrases");
+
+ const voiceLang = document.getElementById("voiceSelect")?.value || "en-US";
+const langCode = voiceLang.startsWith("es") ? "es" :
+                 voiceLang.startsWith("ko") ? "ko" :
+                 voiceLang.startsWith("zh") ? "zh" :
+                 "en";
+
+  loadNativePhraseScript(langCode); // ✅ 安全な読み込みとsetup呼び出し
+
+  console.log("ネイティブフレーズ集 Step4へ");
+}
+
+    else {
+      console.warn("⚠️ コースが未選択か、定義されていないものです！");
+    }
+  });
+});
+
+
+
+
+// 戻るボタンの処理
+document.getElementById("backButton").addEventListener("click", () => {
+  const currentStepId = Array.from(steps).find(step => step.style.display !== 'none')?.id;
+
+  if (currentStepId === "step2") {
+    showStep("step1");
+    console.log("⬅️ Step2から Step1 へ戻った");
+    return;
+  }
+
+  if (currentStepId === "step3") {
+    showStep("step2");
+    console.log("⬅️ Step3から Step2 へ戻った");
+    return;
+  }
+
+  // Step4 → Step3（共通処理）
+// Step4 → Step3（共通処理）
+if (
+  currentStepId === "step4-navigation" ||
+  currentStepId === "step4-pronunciation" ||
+  currentStepId === "step4-verbsAdverbs" ||
+  currentStepId === "step4-nativephrases"
+) {
+
+  // ✅ 動作と表現：Success / Error feedbackを消す
+  if (currentStepId === "step4-verbsAdverbs") {
+    window.hideVerbsAdverbsFeedback();
+  }
+
+  resetLog();
+  showStep("step3");
+  console.log(`⬅️ ${currentStepId} から Step3（コース選択）へ戻った`);
+  return;
+}
+
+  // Step5 → 各コースの Step4 に戻る（lastStep4Id を使う）
+  if (currentStepId === "step5") {
+
+      // ✅ NavigationコースならSuccess / Error feedbackを消す
+  if (selectedCourse === "navigation") {
+    window.hideNavigationFeedback();
+  }
+  
+    if (lastStep4Id) {
+      const targetStep = document.getElementById(lastStep4Id);
+      if (targetStep) {
+        showStep(lastStep4Id);
+        resetLog();
+        console.log(`⬅️ Step5から ${lastStep4Id} に戻った`);
+      } else {
+        console.warn("⚠️ lastStep4Id が不正です");
+        showStep("step3");
+      }
+    } else {
+      console.warn("⚠️ Step5から戻る先が未設定です");
+      showStep("step3");
+    }
+    return;
+  }
+
+  // その他 → Step1 に戻る
+  showStep("step1");
+  console.log("⬅️ デフォルトで Step1（言語選択）へ戻った");
+});
+
+
+
+
+
+
+
+
+
+// ========================
+// ✅ 道案内コースのレベル準備（仮置き）
+// ========================
+function setupNavigationLevels() {
+
+  console.log("✅ ナビゲーション用レベルセットを準備中...");
+
+  const levelButtons =
+    document.querySelectorAll(".level-button");
+
+  levelButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const level =
+        button.dataset.level;
+
+      // ✅ 現在のレベルを保存
+      window.currentLevel = level;
+
+      console.log(
+        "📚 選択されたレベル:",
+        window.currentLevel
+      );
+
+      const language =
+        window.currentLanguage || "en";
+
+      // ✅ そのレベルの表現を取得
+      const expressions =
+        window.EXPRESSIONS?.[language]?.[level] || [];
+
+      console.log(
+        "✅ このレベルの表現:",
+        expressions
+      );
+
+      // ✅ Step5へ
+      showStep("step5");
+
+      // ✅ 表現カードを更新
+      updateNavigationExpressions(
+        language,
+        level
+      );
+    });
+
+  });
+}
+
+
+// ========================
+// ✅ 道案内：選択レベルの表現を表示
+// ========================
+function updateNavigationExpressions(
+  language = "en",
+  level = "beginner"
+) {
+
+  const expressionContainer =
+    document.getElementById("expressionContainer");
+
+  if (!expressionContainer) {
+    console.warn("⚠️ expressionContainer が見つかりません");
+    return;
+  }
+
+  expressionContainer.innerHTML = "";
+
+  expressionContainer.classList.remove(
+  "beginner",
+  "intermediate",
+  "advanced"
+);
+
+expressionContainer.classList.add(level);
+
+  const expressions =
+    window.EXPRESSIONS?.[language]?.[level] || [];
+
+  expressions.forEach(expression => {
+
+    const div = document.createElement("div");
+    div.className = "card";
+
+    const translated =
+      TRANSLATIONS?.[language]?.[expression] || "";
+
+    div.innerHTML = `
+      <div class="expression-en">
+        ${expression} ${translated}
+      </div>
+    `;
+
+    expressionContainer.appendChild(div);
+  });
+}
+
+
+function updateExpressionsVerbsAdverbs(language = "en") {
+    const expressionContainer = document.getElementById('expressionContainer-verbsAdverbs');
+    expressionContainer.innerHTML = '';
+
+    const expressions = VERB_ADVERB_LIST[language] || [];
+
+    expressions.forEach(expression => {
+        const div = document.createElement('div');
+        div.className = 'card';
+
+        const translated = TRANSLATIONS?.[language]?.[expression] || ''; // 絵文字（または空文字）
+
+        div.innerHTML = `
+            <div class="expression-en">${expression} ${translated}</div>
+        `;
+
+        expressionContainer.appendChild(div);
+    });
+}
+
+// ✅ 選択中の言語に基づいて呼び出す
+const voiceLang = document.getElementById("voiceSelect")?.value || "en-US";
+console.log("🔍 現在の voiceSelect value:", voiceLang);  // 例: "es-ES", "ko-KR"
+
+const langCode = voiceLang.startsWith("es") ? "es" :
+                 voiceLang.startsWith("ko") ? "ko" :
+                 voiceLang.startsWith("zh") ? "zh" :
+                 "en";
+
+console.log("🌐 言語コード langCode:", langCode);
+
+updateExpressionsVerbsAdverbs(langCode);
+
+
+/*
+document.querySelectorAllとは
+まずdocument: ブラウザに表示されているウェブページ全体
+querySelectAll('○○') その中から、条件に合うものを全部探してリストにする。
+それを forEachで１つ１つに何をするかを追加できる。
+*/
+
+function updateExpressions(selectedLanguage, selectedLevel) {
+    const expressionContainer = document.getElementById('expressionContainer');
+    const expressionBalloon = document.getElementById('expressionBalloon');
+    const expressionText = document.getElementById('expressionText');
+
+    // コンテナと吹き出しの初期化
+    expressionContainer.innerHTML = '';
+    if (expressionBalloon) expressionBalloon.style.display = 'none';
+    if (expressionText) expressionText.textContent = '';
+
+    // 表現リストを取得
+    const expressions = EXPRESSIONS[selectedLanguage]?.[selectedLevel] ?? [];
+
+    if (expressions.length > 0) {
+        expressions.forEach(expression => {
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    // ✅ 言語に応じて絵文字取得
+    const emoji = TRANSLATIONS[selectedLanguage]?.[expression];
+
+    div.innerHTML = `
+      <div class="expression-en">${expression}</div>
+      <div class="expression-jp">${emoji || '（訳なし）'}</div>
+    `;
+
+    div.id = `expression-${expression.replace(/\s+/g, '-')}`;
+    expressionContainer.appendChild(div);
+});
+
+
+        // 吹き出しを表示して表現をリスト表示
+        if (expressionBalloon && expressionText) {
+            expressionBalloon.style.display = 'block';
+            expressionText.textContent = `使える表現\n${expressions.join('\n')}`;
+        }
+    }
+}
+
+
+
+
+// ✅ 各レベルボタン（かんたん・ふつう・むずかしい）にクリックイベントを付与
+document.querySelectorAll('.level-button').forEach(button => {
+  button.addEventListener('click', () => {
+
+    // ① ボタンのハイライト（選択状態）を更新
+    document.querySelectorAll('.level-button').forEach(btn => btn.classList.remove("selected"));
+    button.classList.add("selected");
+
+    // ② 選ばれたレベルをグローバル変数とローカルストレージに保存
+    selectedLevel = button.dataset.level;
+    localStorage.setItem('selectedLevel', selectedLevel);
+
+    // ③ 表現リスト（Toioで使えるコマンド表）を更新（言語は英語固定）
+    updateExpressions(selectedLanguage, selectedLevel); // ✅ 選択された言語で更新！
+
+
+    // ④ コースが「ナビゲーション」の場合は、Step5（Toio制御）へ即移動
+    if (selectedCourse === "navigation") {
+      // 🔁 Step5から戻るときのために、直前のStep4を記録
+      lastStep4Id = "step4-navigation";
+
+      // ⏩ Step5（動かしてみよう）にジャンプ
+      showStep("step5");
+
+      console.log("🚀 Step5 へ自動遷移：", selectedLevel);
+
+    } else {
+      // それ以外のコース（副詞・発音）の場合は「次へ」ボタンを有効化
+      const nextStepButton = document.getElementById("goToStep5");
+      if (nextStepButton) {
+        nextStepButton.disabled = false;
+      }
+    }
+  });
+});
+
+
+// ========================
+// ✅ ネイディブフレーズ集データ
+// ========================
+
+
+
+
+//方針を決めた
+//基本動詞のreplaceを作成
+//それ以外の動詞の主語はI or youで例文を作成
+function normalizePhraseForRegex(text) {
+  return text
+    .replace(/[’‘]/g, "'") // ← この行を追加！
+   .replace(/[\.\?\*\+\^\$\[\]\(\)\{\}\\\|]/g, '\\$&') // 正規表現エスケープ
+    .replace(/\bsth\b|\bsb\b|\bso\b/g, '.*?')           // sth, sb, so → 任意
+    .replace(/\bone['’]s\b/g, '(?:my|your|his|her|our|their)') // one’s → 各人称代名詞にマッチ
+    // 🔽 動詞バリエーション
+    .replace(/\bget\b/g, '(get|gets|got)')
+    .replace(/\bmake\b/g, '(make|makes|made)')
+    .replace(/\bput\b/g, '(put|puts)')
+    .replace(/\btake\b/g, '(take|takes|took)')
+    .replace(/\bhave\b/g, '(have|has|had)')
+    .replace(/\bdo\b/g, '(do|does|did)')
+    .replace(/\bbe\b/g, '(be|is|are|was|were)')
+    .replace(/\bgive\b/g, '(give|gives|gave)')
+    .replace(/\bcall\b/g, '(call|calls|called)')
+    .replace(/\bgo\b/g, '(go|goes|went)')
+    .replace(/\bsay\b/g, '(say|says|said)')
+    .replace(/\btell\b/g, '(tell|tells|told)')
+    .replace(/\brun\b/g, '(run|runs|ran)')
+    .replace(/\bcome\b/g, '(come|comes|came)')
+    .replace(/\bsee\b/g, '(see|sees|saw)')
+    .replace(/\bknow\b/g, '(know|knows|knew)')
+    .replace(/\bkeep\b/g, '(keep|keeps|kept)')
+    .replace(/\bleave\b/g, '(leave|leaves|left)')
+    .replace(/\bfind\b/g, '(find|finds|found)')
+    .replace(/\bbring\b/g, '(bring|brings|brought)')
+    .replace(/\block\b/g, ('lock|locked'))
+    .replace(/\bfeel\b/g, '(feel|feels|felt)')
+.replace(/\blook\b/g, '(look|looks|looked)')
+.replace(/\bshow\b/g, '(show|shows|showed)')
+.replace(/\bthink\b/g, '(think|thinks|thought)')
+.replace(/\bwant\b/g, '(want|wants|wanted)')
+.replace(/\bneed\b/g, '(need|needs|needed)')
+.replace(/\bwork\b/g, '(work|works|worked)')
+.replace(/\btry\b/g, '(try|tries|tried)')
+.replace(/\bhold\b/g, '(hold|holds|held)')
+.replace(/\bturn\b/g, '(turn|turns|turned)')
+}
+
+
+//スペイン語Version
+function normalizePhraseForRegex_es(text) {
+  return text
+    .replace(/[’‘]/g, "'") // アポストロフィ正規化
+    .replace(/[\.\?\*\+\^\$\[\]\(\)\{\}\\\|]/g, '\\$&') // 正規表現エスケープ
+    .replace(/\balgo\b|\balguien\b/g, '.*?') // sth, sb相当
+    .replace(/\bmi\b/g, '(mi|tu|su|nuestro|vuestro|su)') // one’sのような所有詞
+    .replace(/~|〜|…|…？|…\?/g, '.*?') // 任意の目的地（波線、チルダ、省略記号対応）
+
+
+    // 動詞バリエーション（直説法現在・点過去）
+    .replace(/\btener\b/g, '(tengo|tienes|tiene|tenemos|tenéis|tienen|tuve|tuviste|tuvo|tuvimos|tuvisteis|tuvieron)')
+    .replace(/\bser\b/g, '(soy|eres|es|somos|sois|son|fui|fuiste|fue|fuimos|fuisteis|fueron)')
+    .replace(/\bestar\b/g, '(estoy|estás|está|estamos|estáis|están|estuve|estuviste|estuvo|estuvimos|estuvisteis|estuvieron)')
+    .replace(/\bdecir\b/g, '(digo|dices|dice|decimos|decís|dicen|dije|dijiste|dijo|dijimos|dijisteis|dijeron)')
+    .replace(/\bhacer\b/g, '(hago|haces|hace|hacemos|hacéis|hacen|hice|hiciste|hizo|hicimos|hicisteis|hicieron)')
+    .replace(/\bir\b/g, '(voy|vas|va|vamos|vais|van|fui|fuiste|fue|fuimos|fuisteis|fueron)')
+    .replace(/\bver\b/g, '(veo|ves|ve|vemos|veis|ven|vi|viste|vio|vimos|visteis|vieron)')
+    .replace(/\bdar\b/g, '(doy|das|da|damos|dais|dan|di|diste|dio|dimos|disteis|dieron)')
+    .replace(/\bquerer\b/g, '(quiero|quieres|quiere|queremos|queréis|quieren|quise|quisiste|quiso|quisimos|quisisteis|quisieron)')
+    .replace(/\bpoder\b/g, '(puedo|puedes|puede|podemos|podéis|pueden|pude|pudiste|pudo|pudimos|pudisteis|pudieron)')
+    .replace(/\bsaber\b/g, '(sé|sabes|sabe|sabemos|sabéis|saben|supe|supiste|supo|supimos|supisteis|supieron)')
+    .replace(/\bponer\b/g, '(pongo|pones|pone|ponemos|ponéis|ponen|puse|pusiste|puso|pusimos|pusisteis|pusieron)')
+    .replace(/\bsalir\b/g, '(salgo|sales|sale|salimos|salís|salen|salí|saliste|salió|salimos|salisteis|salieron)')
+    .replace(/\bvenir\b/g, '(vengo|vienes|viene|venimos|venís|vienen|vine|viniste|vino|vinimos|vinisteis|vinieron)')
+    .replace(/\bllamar\b/g, '(llamo|llamas|llama|llamamos|llamáis|llaman|llamé|llamaste|llamó|llamamos|llamasteis|llamaron)')
+    .replace(/\bbuscar\b/g, '(busco|buscas|busca|buscamos|buscáis|buscan|busqué|buscaste|buscó|buscamos|buscasteis|buscaron)')
+    .replace(/\bllegar\b/g, '(llego|llegas|llega|llegamos|llegáis|llegan|llegué|llegaste|llegó|llegamos|llegasteis|llegaron)')
+    .replace(/\bhay\b/g, 'hay') // haber の三人称単数現在形だけ使われる
+    .replace(/\bdecir\b/g, '(digo|dices|dice|decimos|decís|dicen|dije|dijiste|dijo|dijimos|dijisteis|dijeron|decirme|decirnos|decirle)');
+}
+
+//韓国語Version
+function normalizePhraseForRegex_ko(text) {
+  return text
+  .replace(/\b보다\b/g, '(보다|봐요|봤어요|보자|봤다)')
+.replace(/\b가다\b/g, '(가다|가요|갔어요|가자|갔다)')
+.replace(/\b오다\b/g, '(오다|와요|왔어요|오자|왔다)')
+.replace(/\b먹다\b/g, '(먹다|먹어요|먹었어요|먹자|먹었다)')
+.replace(/\b마시다\b/g, '(마시다|마셔요|마셨어요|마시자|마셨다)')
+.replace(/\b자다\b/g, '(자다|자요|잤어요|자자|잤다)')
+.replace(/\b공부하다\b/g, '(공부하다|공부해요|공부했어요|공부하자|공부했다)')
+.replace(/\b말하다\b/g, '(말하다|말해요|말했어요|말하자|말했다)')
+.replace(/\b쓰다\b/g, '(쓰다|써요|썼어요|쓰자|썼다)')
+.replace(/\b읽다\b/g, '(읽다|읽어요|읽었어요|읽자|읽었다)')
+}
+
+//中国語Version
+function normalizePhraseForRegex_zh(text) {
+  return text
+    .replace(/[’‘]/g, "'") // アポストロフィ正規化
+    .replace(/[。？\.\*\+\^\$\[\]\(\)\{\}\\\/\|]/g, '\\$&') // 正規表現エスケープ
+    .replace(/一步/g, '(一步|退一步)')       // "一步" → "退一步" にもマッチ
+    .replace(/直走/g, '(直走|往前走|前进)')
+    .replace(/快/g, '(快|赶快|赶紧)')
+    .replace(/慢/g, '(慢|慢慢|缓慢)')
+    .replace(/转/g, '(转|拐)')
+    .replace(/走/g, '(走|行|移动)')
+    .replace(/\b某人\b|\b某事\b/g, '.*?') // sb, sth に相当する模糊語
+    .replace(/\b我的\b/g, '(我的|你的|他的|她的|我们的|你们的|他们的|她们的)') // one’s 的な所有代名詞
+    .replace(/[~〜…]|…？|…\?/g, '.*?'); // 任意目的地表現
+}
+
+
+
+// ========================
+// ✅ ネイティブフレーズボタンを生成
+// ========================
+function setupNativePhrases() {
+  const phraseList = document.getElementById("phraseList");
+  phraseList.innerHTML = "";
+
+  document.getElementById("nativeHeader").style.display = "none";
+  document.getElementById("phraseDetails").style.display = "none";
+
+const currentLang = document.getElementById("voiceSelect")?.value || "en-US";
+
+const langCode = currentLang.startsWith("es") ? "es" :
+                 currentLang.startsWith("ko") ? "ko" :
+                 currentLang.startsWith("zh") ? "zh" :
+                 "en";
+
+  const sortedEntries = Object.entries(nativePhrases).sort((a, b) => {
+    const aLevel = a[1].level || 1;
+    const bLevel = b[1].level || 1;
+    return aLevel - bLevel;
+  });
+
+  for (let [key, phrase] of sortedEntries) {
+    const btn = document.createElement("button");
+    btn.className = "phrase-item";
+
+    const level = phrase.level || 1;
+    const levelTag = document.createElement("span");
+    levelTag.className = `level-tag level-${level}`;
+    levelTag.textContent = `Level ${level}`;
+    btn.appendChild(levelTag);
+
+    const textWrapper = document.createElement("div");
+    textWrapper.className = "phrase-wrapper";
+
+    const phraseSpan = document.createElement("span");
+    phraseSpan.className = "phrase-text";
+    phraseSpan.textContent = phrase.phrase;
+
+    const jaSpan = document.createElement("span");
+    jaSpan.className = "translation-text";
+    jaSpan.textContent = "　" + phrase.translation;
+
+    textWrapper.appendChild(phraseSpan);
+    textWrapper.appendChild(jaSpan);
+    btn.appendChild(textWrapper);
+
+    // ✅ TTS + 詳細
+    btn.onclick = () => {
+      showPhraseDetails(key);
+      speakText(phrase.phrase, currentLang);
+    };
+
+    phraseList.appendChild(btn);
+  }
+}
+
+
+function speakText(text, lang = "en-US", rate = 0.9) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = rate;
+
+  // ✅ startsWith で lang の前方一致（"es" → "es-MX" などにも対応）
+  const matchingVoices = voices.filter(v => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
+  const preferredVoice = matchingVoices.find(v => v.name.toLowerCase().includes("google")) || matchingVoices[0];
+
+  if (preferredVoice) utterance.voice = preferredVoice;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+// =====================================
+// ✅ ネイティブフレーズ集：成功UI
+// =====================================
+function showSuccessFeedback() {
+  const feedback = document.getElementById("successFeedback");
+
+  if (!feedback) return;
+
+  feedback.classList.remove("hidden");
+}
+
+function hideNativeFeedback() {
+  const errorFeedback = document.getElementById("errorFeedback");
+  const successFeedback = document.getElementById("successFeedback");
+
+  if (errorFeedback) {
+    errorFeedback.classList.add("hidden");
+  }
+
+  if (successFeedback) {
+    successFeedback.classList.add("hidden");
+  }
+}
+
+// =====================================
+// ❌ ネイティブフレーズ集：エラーUI
+// =====================================
+
+function showErrorFeedback(targetText, spokenRaw) {
+  const feedback = document.getElementById("errorFeedback");
+  const wordFeedback = document.getElementById("wordFeedback");
+  const recognizedText = document.getElementById("recognizedText");
+
+  if (!feedback || !wordFeedback || !recognizedText) return;
+
+  const targetWords = normalizeText(targetText).split(/\s+/);
+  const spokenWords = normalizeText(spokenRaw).split(/\s+/);
+
+  // 正解文の中で認識されなかった単語を取得
+  const missingWords =
+    getMissingTargetWords(targetWords, spokenWords);
+
+  // 上の赤カード
+  wordFeedback.innerHTML = "";
+
+  missingWords.forEach((word) => {
+    const box = document.createElement("div");
+
+    box.className = "word-result incorrect";
+
+    box.innerHTML = `
+      <span class="feedback-word">${word}</span>
+    `;
+
+    wordFeedback.appendChild(box);
+  });
+
+  // SpeechRecognition が実際に認識した文章
+  recognizedText.textContent = spokenRaw;
+
+  // エラーUI表示
+  feedback.classList.remove("hidden");
+}
+
+
+function getMissingTargetWords(targetWords, spokenWords) {
+  const m = targetWords.length;
+  const n = spokenWords.length;
+
+  const dp = Array.from({ length: m + 1 }, () =>
+    Array(n + 1).fill(0)
+  );
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (targetWords[i - 1] === spokenWords[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(
+          dp[i - 1][j],
+          dp[i][j - 1]
+        );
+      }
+    }
+  }
+
+  const matchedTargetIndexes = new Set();
+
+  let i = m;
+  let j = n;
+
+  while (i > 0 && j > 0) {
+    if (targetWords[i - 1] === spokenWords[j - 1]) {
+      matchedTargetIndexes.add(i - 1);
+      i--;
+      j--;
+    } else if (dp[i - 1][j] >= dp[i][j - 1]) {
+      i--;
+    } else {
+      j--;
+    }
+  }
+
+  return targetWords.filter(
+    (_, index) => !matchedTargetIndexes.has(index)
+  );
+}
+
+let currentNativeSentence = "";
+
+//認識開始
+function startRecognitionForText(targetText) {
+
+  // 前回のフィードバックを消す
+  hideNativeFeedback();
+
+  initRecognitionPronunciation();
+
+ const target = normalizeForComparison(targetText);
+
+  const voiceLang =
+    document.getElementById("voiceSelect")?.value || "en-US";
+
+  recognitionPronunciation.lang = voiceLang;
+
+  recognitionPronunciation.onresult = async (event) => {
+
+    const spokenRaw = event.results[0][0].transcript;
+    const spoken = normalizeForComparison(spokenRaw);
+
+  console.log("🎯 targetText 元:", JSON.stringify(targetText));
+  console.log("🎯 正規化後:", JSON.stringify(target));
+  console.log("🎤 spokenRaw 元:", JSON.stringify(spokenRaw));
+  console.log("🎤 正規化後:", JSON.stringify(spoken));
+  console.log("一致:", spoken === target);
+    // =====================================
+    // 全文一致した場合
+    // =====================================
+    if (spoken === target) {
+
+      showFeedback("✅ 発音できました！", "green");
+
+      await flashToioGreen();
+
+      // ⭐ 全文正解のときだけ Great!
+      showSuccessFeedback();
+
+      if (typeof sendtoio === "function") {
+
+        const langCode =
+          voiceLang.startsWith("es") ? "es" :
+          voiceLang.startsWith("ko") ? "ko" :
+          voiceLang.startsWith("zh") ? "zh" :
+          "en";
+
+        sendtoio("yes", toioCharacteristic, langCode);
+      }
+
+    }
+
+    // =====================================
+    // 1語でも違った場合
+    // =====================================
+    else {
+
+      showFeedback(
+        `❌ 「${spokenRaw}」と聞こえました`,
+        "red"
+      );
+
+      showErrorFeedback(targetText, spokenRaw);
+
+      await flashToioRed();
+    }
+  };
+
+  recognitionPronunciation.onerror = (event) => {
+    alert("⚠️ 音声認識エラー: " + event.error);
+  };
+
+  try {
+    recognitionPronunciation.start();
+    console.log("🎤 発音認識スタート（native phrase）");
+  } catch (e) {
+    console.error("❌ startRecognitionForText 失敗:", e);
+  }
+}
+
+
+
+// ========================
+// ✅ 詳細を表示する関数
+// ========================
+function showPhraseDetails(key) {
+
+   // ★ 新しいフレーズを開いたら、前の例文をリセット
+  currentNativeSentence = "";
+
+    // ★ 前回のフィードバックも消す
+  hideNativeFeedback();
+
+  const phrase = nativePhrases[key];
+  if (!phrase) return;
+
+  const phraseList = document.getElementById("phraseList");
+  phraseList.innerHTML = "";
+
+  // Browseを表示
+  document.getElementById("nativeHeader").style.display = "block";
+
+  // タイトル・意味・発音
+  document.getElementById("selectedPhrase").textContent = phrase.phrase;
+  document.getElementById("pronunciation").textContent = phrase.pronunciation || "";
+  document.getElementById("phraseTranslation").textContent = phrase.translation || "";
+
+
+  // 例文表示　　学習必要
+const exampleList = document.getElementById("exampleList");
+exampleList.innerHTML = "";
+
+// 選択中の言語を取得
+const currentLang = document.getElementById("voiceSelect")?.value || "en-US";
+const langKey = currentLang.startsWith("es") ? "es" : 
+                currentLang.startsWith("ko") ? "ko" :
+                currentLang.startsWith("zh") ? "zh" :
+                "en";
+
+const pattern = currentLang.startsWith("es")
+  ? normalizePhraseForRegex_es(phrase.phrase)
+  : currentLang.startsWith("ko")
+  ? normalizePhraseForRegex_ko(phrase.phrase)
+  : currentLang.startsWith("zh")
+  ? normalizePhraseForRegex_zh(phrase.phrase) // 👈 中国語用関数を追加
+  : normalizePhraseForRegex(phrase.phrase);   // 英語 or その他
+
+
+const regex = new RegExp(pattern, "gi");
+
+phrase.examples.forEach(e => {
+  const li = document.createElement("li");
+
+  // 対応する例文があるか確認
+  const sentence = e[langKey];
+  const translation = e.ja;
+
+  if (typeof e === "object" && sentence && translation) {
+    const safeText = sentence.replace(/[’‘]/g, "'");
+
+    const highlighted = safeText.replace(
+      regex,
+      match => `<span class="highlight">${match}</span>`
+    );
+
+    li.innerHTML = `
+      <div class="example-sentence-row">
+        <div class="${langKey}-sentence">${highlighted}</div>
+        <button class="example-speak-btn">🔈</button>
+      </div>
+
+      <div class="ja-sentence">${translation}</div>
+    `;
+
+// 🔈 この例文だけ読み上げ
+li.querySelector(".example-speak-btn").addEventListener("click", () => {
+  const lang = document.getElementById("voiceSelect")?.value || "en-US";
+
+  // ★ 最後に読み上げた例文を発音チェック対象として保存
+  currentNativeSentence = sentence;
+
+  console.log("🎯 発音チェック対象:", currentNativeSentence);
+
+  // 例文を読み上げ
+  speakExamples([sentence], lang);
+});
+
+} else {
+  li.textContent = sentence || "[未対応]";
+}
+
+exampleList.appendChild(li);
+});
+
+
+// 最後に詳細を表示
+document.getElementById("phraseDetails").style.display = "block";
+}
+
+document.getElementById("backToBrowse").addEventListener("click", () => {
+
+  hideNativeFeedback(); // エラーUIを非表示にする
+  document.getElementById("phraseDetails").style.display = "none";
+  document.getElementById("nativeHeader").style.display = "none";
+  document.getElementById("phraseList").innerHTML = "";
+  setupNativePhrases(); // ← 一覧に戻る！
+});
+
+
+
+//英語とスペインを話す
+function speakExamples(exampleSentences = [], lang = "en-US", rate = 0.9) {
+  if (!Array.isArray(exampleSentences) || exampleSentences.length === 0) return;
+
+  function speakOne(index = 0) {
+    if (index >= exampleSentences.length) return;
+
+    const utterance = new SpeechSynthesisUtterance(exampleSentences[index]);
+    utterance.lang = lang;
+    utterance.rate = rate;
+
+    // ✅ 使用可能な音声一覧から一致する言語を抽出
+    const matchingVoices = voices.filter(v => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
+
+    // ✅ Googleの音声があれば優先、それ以外なら最初の一致
+    const preferredVoice = matchingVoices.find(v => v.name.toLowerCase().includes("google")) || matchingVoices[0];
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    } else {
+      console.warn(`🔈 選択言語(${lang})に対応する音声が見つかりません`);
+    }
+
+    utterance.onend = () => speakOne(index + 1);
+    speechSynthesis.speak(utterance);
+  }
+
+  speechSynthesis.cancel(); // 🔁 前回の読み上げを中断してから開始
+  speakOne(0);
+}
+
+
+window.speakNativePhrase = function() {
+  const key = document.getElementById("selectedPhrase").textContent.trim();
+  const phrase = Object.values(nativePhrases).find(p => p.phrase === key);
+
+  if (!phrase || !phrase.examples || phrase.examples.length === 0) {
+    alert("❌ 読み上げ可能な例文が見つかりません");
+    return;
+  }
+
+  // 言語に応じて読み上げ対象を選択
+const voiceLang = document.getElementById("voiceSelect")?.value || "en-US";
+
+// 多言語対応
+const langKey = voiceLang.startsWith("es") ? "es" :
+                voiceLang.startsWith("ko") ? "ko" :
+                voiceLang.startsWith("zh") ? "zh" :
+                "en";
+
+const examplesToSpeak = phrase.examples.map(e => e[langKey]).filter(Boolean);
+
+if (examplesToSpeak.length === 0) {
+  alert("❌ 対応する言語の例文がありません");
+  return;
+}
+
+
+  speakExamples(examplesToSpeak, voiceLang);
+};
+
+window.startRecognitionNative = function() {
+
+  if (!currentNativeSentence) {
+    alert("先に例文の🔈ボタンを押してください");
+    return;
+  }
+
+  console.log("🎯 最後に読み上げた例文:", currentNativeSentence);
+
+  startRecognitionForText(currentNativeSentence);
+};
+
+//学習必要
+function loadNativePhraseScript(langCode) {
+  const existingScript = document.getElementById("nativePhraseScript");
+  if (existingScript) {
+    existingScript.remove();
+  }
+
+  const script = document.createElement("script");
+  script.id = "nativePhraseScript";
+
+  // 言語ごとにJSファイルを分岐
+if (langCode === "es") {
+  script.src = "NativePhraseSP.js";
+} else if (langCode === "ko") {
+  script.src = "NativePhraseKo.js";
+} else if (langCode === "zh") {
+  script.src = "NativePhraseCH.js";
+} else {
+  script.src = "NativePhrase.js";
+}
+
+  script.onload = () => {
+    nativePhrases = window.nativePhrases;
+    setupNativePhrases();
+  };
+
+  document.head.appendChild(script);
+}
+
+
+
+// ✅ Step1: Toio 接続 → Step2
+document.getElementById("connectButton").addEventListener("click", async () => {
+    await connectToio();
+    document.getElementById("goToStep2").disabled = false;
+});
+
+document.getElementById("goToStep2").addEventListener("click", () => {
+    showStep("step2");
+    console.log("➡️ Step1 → Step2");
+});
+
+
+// ✅ Step4（レベル選択）→ Step5（ナビゲーションコース専用）
+document.getElementById("goToStep5").addEventListener("click", () => {
+    if (selectedCourse === "navigation") {
+        lastStep4Id = "step4-navigation";
+        showStep("step5");
+        console.log("✅ Step4 → Step5（ナビコース）");
+    } else {
+        alert("このボタンはナビゲーションコース専用です！");
+        console.warn("⚠️ このボタンはナビゲーションコース専用です！");
+    }
+});
+
+
+
+
+
+
+// ✅ 初期設定（"en" を明示）
+const savedLevel = localStorage.getItem("selectedLevel") || "beginner";
+updateExpressions("en", savedLevel); // ✅ 修正ポイント
+});
+
+//これまでOK
+
+
+
+
+//ノイズを感知するための機能 Noise
+/*let isNoiseSoundDetected = false;
+
+async function initNoiseDetectionModel() {
+  const URL = "https://teachablemachine.withgoogle.com/models/rNp1xCj5B/";
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+
+  const recognizer = speechCommands.create("BROWSER_FFT", undefined, modelURL, metadataURL);
+
+  await recognizer.ensureModelLoaded();
+
+  const labels = recognizer.wordLabels();
+  console.log("🎓 学習済ラベル:", labels);
+
+  recognizer.listen(result => {
+    const scores = result.scores;
+    const topScore = Math.max(...scores);
+    const topLabel = labels[scores.indexOf(topScore)];
+
+    console.log("🎧 全スコア:", labels.map((label, i) => `${label}: ${scores[i].toFixed(2)}`).join(" | "));
+    console.log(`🏷️ 検出: ${topLabel}, スコア: ${topScore.toFixed(2)}`);
+
+   if (
+  ["バックグラウンド ノイズ", "日本語サンプル", "指パッチン", "笑い声"].some(
+    label => topLabel.trim() === label
+  ) && topScore > 0.2
+) {
+  isNoiseSoundDetected = true;
+  console.log(`🎯 ノイズ系の音を検知: ${topLabel}`);
+}
+
+  }, {
+    probabilityThreshold: 0.0,
+    overlapFactor: 0.5
+  });
+} */
+
+
+
+// ==============================
+// 🧭 道案内用：Navigation専用 音声認識設定
+// ==============================
+
+
+        //ここから音声認識
+        // ✅ 音声認識設定 ここから
+
+        // ==========================================
+// 動作と表現コース：フィードバック表示
+// ==========================================
+
+window.hideVerbsAdverbsFeedback = function() {
+
+  const success =
+    document.getElementById("verbsAdverbsSuccessFeedback");
+
+  const error =
+    document.getElementById("verbsAdverbsErrorFeedback");
+
+  if (success) {
+    success.classList.add("hidden");
+  }
+
+  if (error) {
+    error.classList.add("hidden");
+  }
+};
+
+
+// ✅ Great!
+window.showVerbsAdverbsSuccessFeedback = function(spoken) {
+
+  window.hideVerbsAdverbsFeedback();
+
+  const feedback =
+    document.getElementById("verbsAdverbsSuccessFeedback");
+
+  const text =
+    document.getElementById("verbsAdverbsSuccessText");
+
+  if (!feedback) {
+    console.warn("⚠️ verbsAdverbsSuccessFeedback が見つかりません");
+    return;
+  }
+
+  if (text) {
+    text.textContent = spoken;
+  }
+  //一度完全に隠す
+  feedback.classList.add("hidden");
+
+  //再描画させる
+  void feedback.offsetWidth;
+
+  // もう一度表示
+  feedback.classList.remove("hidden");
+};
+
+
+// ❌ Try again!
+window.showVerbsAdverbsErrorFeedback = function(spoken) {
+
+  window.hideVerbsAdverbsFeedback();
+
+  const feedback =
+    document.getElementById("verbsAdverbsErrorFeedback");
+
+  const text =
+    document.getElementById("verbsAdverbsErrorText");
+
+  if (!feedback) {
+    console.warn("⚠️ verbsAdverbsErrorFeedback が見つかりません");
+    return;
+  }
+
+  if (text) {
+    text.textContent = spoken;
+  }
+
+  feedback.classList.add("hidden");
+
+  //再描画
+  void feedback.offsetWidth;
+
+  //もう一度表示
+  feedback.classList.remove("hidden");
+};
+
+// ✅ Navigation用 音声認識オブジェクト
+// ✅ 初期化関数（必要なときだけ作成）
+// ✅ Navigation用 音声認識の初期化関数（必要なときだけ作成）
+function initRecognitionNavigation(selectedLanguage = 'en') {
+  if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+    alert("このブラウザでは音声認識がサポートされていません。");
+    console.error("❌ SpeechRecognition 未サポート");
+    return null;
+  }
+
+  const RecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new RecognitionClass();
+
+  const langMap = {
+    en: 'en-US',
+    es: 'es-ES',
+    ko: 'ko-KR',
+    zh: 'zh-CN'
+  };
+
+  // ✅ 正しく recognition にエラーハンドラを設定
+  recognition.onerror = (event) => {
+    if (event.error === "no-speech" || event.error === "aborted") return;
+
+    const error = event.error;
+    let friendlyMessage = `⚠️ エラー: ${error}`;
+
+    if (error === "audio-capture") {
+      friendlyMessage = "🎙️ マイクが見つからなかったようです。もう一度つなげてね。";
+    } else if (error === "not-allowed" || error === "service-not-allowed") {
+      friendlyMessage = "🚫 マイクの使用がブロックされています。ブラウザの設定を見てね。";
+    }
+
+    logRecognition(friendlyMessage);
+    console.error("Recognition error:", error);
+  };
+
+  recognition.lang = langMap[selectedLanguage] || 'en-US';
+  recognition.continuous = true;
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 3;
+
+recognition.onresult = (event) => {
+
+  const result = event.results[event.results.length - 1];
+
+  const transcript =
+    result[0].transcript
+      .trim()
+      .toLowerCase();
+
+  console.log(`🎤 transcript: "${transcript}"`);
+
+
+  // ============================
+  // 空の認識結果なら何もしない
+  // ============================
+  if (!transcript) {
+    console.log("🔀 認識結果が空でした");
+    return;
+  }
+
+
+// ============================
+// エイリアス処理
+// 道案内コースのときだけ使用
+// ============================
+
+let canonicalTranscript = transcript;
+
+if (selectedCourse === "navigation") {
+
+  const aliasMap = {
+    en: ALIASES,
+    es: ALIASES_ES
+  };
+
+  canonicalTranscript =
+    aliasMap[selectedLanguage]?.[transcript]
+    || transcript;
+}
+
+console.log(
+  `🎯 canonical: "${canonicalTranscript}"`
+);
+
+  // ============================
+  // 現在のレベルを取得
+  // ============================
+  const currentLevel =
+    window.currentLevel || "beginner";
+
+
+  // ============================
+  // 現在の言語 × レベルの
+  // 正解候補を取得
+  // ============================
+  // ============================
+// 現在開いているコースを確認
+// ============================
+const navigationPage =
+  document.getElementById("step5");
+
+const verbsAdverbsPage =
+  document.getElementById("step4-verbsAdverbs");
+
+let validExpressions = [];
+
+if (selectedCourse === "verbsAdverbs") {
+
+  validExpressions =
+    window.VERB_ADVERB_LIST?.[selectedLanguage] || [];
+
+  console.log("🎯 現在のコース: 動作と表現");
+
+}
+else if (selectedCourse === "navigation") {
+
+  validExpressions =
+    window.EXPRESSIONS?.[selectedLanguage]?.[currentLevel] || [];
+
+  console.log("🎯 現在のコース: 道案内");
+
+}
+
+
+// ============================
+// ✅ 正解
+// ============================
+if (
+  validExpressions.includes(
+    canonicalTranscript
+  )
+) {
+
+  console.log(
+    "✅ 正しく認識:",
+    canonicalTranscript
+  );
+
+  // ============================
+  // コースごとに成功表示を変更
+  // ============================
+  if (selectedCourse === "verbsAdverbs") {
+
+    window.showVerbsAdverbsSuccessFeedback(
+      canonicalTranscript
+    );
+
+  } else if (selectedCourse === "navigation") {
+
+    window.showNavigationSuccessFeedback(
+      canonicalTranscript
+    );
+  }
+
+
+  // 該当カードをハイライト
+  highlightExpression(
+    canonicalTranscript
+  );
+
+
+  // toioを動かす
+  sendtoio(
+    canonicalTranscript,
+    toio,
+    selectedLanguage
+  );
+
+
+  // 緑LED + 成功音
+  flashToioGreen();
+}
+
+
+// ============================
+// ❌ 不正解
+// ============================
+else {
+
+  console.log(
+    "❌ 登録表現と一致しません:",
+    transcript
+  );
+
+  // ============================
+  // コースごとに失敗表示を変更
+  // ============================
+  if (selectedCourse === "verbsAdverbs") {
+
+    window.showVerbsAdverbsErrorFeedback(
+      transcript
+    );
+
+  } else if (selectedCourse === "navigation") {
+
+    window.showNavigationErrorFeedback(
+      transcript
+    );
+  }
+
+
+  // 赤LED + エラー音
+  flashToioRed();
+}
+};
+
+
+  // ✅ エラーハンドリング
+  recognition.onerror = (event) => {
+  const error = event.error;
+  let friendlyMessage = `⚠️ 音声認識エラー: ${error}`;
+
+  if (error === "no-speech" || error === "aborted") {
+    console.warn("🎧 音声が検出されなかったか、中断されました");
+    return;
+  } else if (error === "audio-capture") {
+    friendlyMessage = "🎙️ マイクが見つかりません。接続を確認してください。";
+  } else if (error === "not-allowed" || error === "service-not-allowed") {
+    friendlyMessage = "🚫 マイクの使用が許可されていません。ブラウザの設定をご確認ください。";
+  } else if (error === "network") {
+    friendlyMessage = "🌐 ネットワークエラーが発生しました。接続を確認してください。";
+  } else if (error === "language-not-supported") {
+    friendlyMessage = "🈯 この言語はサポートされていません。";
+  }
+
+  // ユーザーに見える形で表示（例: UIログに追加）
+  logRecognition(friendlyMessage, { autoRemoveAfter: 3000 });
+
+  // 開発者向けログ
+  console.error("🚨 Navigation音声認識エラー:", error);
+};
+
+
+  console.log("🧭 Navigation認識 初期化完了");
+  return recognition;
+}
+
+
+
+// ユーザーにフィードバックを与える際にノイズは表示しないで、登録されているフレーズに近い言葉だったらフィードバックを返す
+function levenshtein(a, b) {
+  const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      if (a[i - 1] === b[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      }
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function findClosestCommand(transcript) {
+  let bestMatch = null;
+  let minDistance = Infinity;
+
+  for (const command of Object.keys(TRANSLATIONS)) {
+    const distance = levenshtein(transcript, command);
+    if (distance < minDistance) {
+      minDistance = distance;
+      bestMatch = command;
+    }
+  }
+
+   if (!bestMatch) return null; // ✅ これが大事！
+
+  const allowedDistance = Math.min(4, Math.floor(bestMatch.length * 0.4));
+  // 50%以内の違いまで許容
+  return minDistance <= allowedDistance ? bestMatch : null;
+}
+
+
+
+
+
+
+
+
+// ✅ 表現ハイライト
+function highlightExpression(command) {
+    document.querySelectorAll('.grid-container .card').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    const target = document.getElementById(`expression-${command.replace(/\s+/g, '-')}`);
+    if (target) {
+        target.classList.add('active');
+
+        // ✅ 1.5秒後に active クラスを削除
+        setTimeout(() => {
+            target.classList.remove('active');
+        }, 1500);
+    }
+}
+
+
+/* commands.jsや EXPRESSIONSの言語キーと対応させるための変換辞書。
+現在は必要ない。
+const languageMap = {
+    'en-US': 'en',
+    'en-GB': 'en',
+    'zh-CN': 'zh',
+    'zh-TW': 'zh',
+    'ko-KR': 'ko',
+    'fr-FR': 'fr',
+    'es-ES': 'es'
+}; */
+
+// ✅ 音声コマンドを Toio に送信（全カテゴリから検索対応）
+async function sendtoio(command, toio, selectedLanguage = 'en') {
+  const levels = ['beginner', 'intermediate', 'advanced', 'expressive'];
+  let toioCommand = null;
+
+  for (const level of levels) {
+    const cmds = window.getToioCommand(selectedLanguage, level);
+    if (cmds?.[command]) {
+      toioCommand = cmds[command];
+      break;
+    }
+  }
+
+  const handler = window.toioCommandHandlers?.[command];
+
+  if (toioCommand instanceof Uint8Array) {
+    console.log(`🚀 Toioに送信するバイナリコマンド: ${command}`, toioCommand);
+    if (toioCharacteristic) {
+      try {
+        await toioCharacteristic.writeValue(toioCommand);
+        console.log("✅ バイナリコマンド送信成功！");
+      } catch (error) {
+        console.error(`❌ コマンド送信エラー (${command}):`, error);
+      }
+    } else {
+      console.warn("⚠️ Toioが接続されていません！");
+    }
+    return;
+  }
+
+  // ✅ ここが追加ポイント：関数形式のハンドラー実行
+  if (typeof handler === 'function') {
+    console.log(`🔧 カスタムハンドラーを実行中: ${command}`);
+    try {
+      await handler(toio);
+      console.log("✅ ハンドラー実行成功！");
+    } catch (error) {
+      console.error(`❌ ハンドラー実行エラー (${command}):`, error);
+    }
+    return;
+  }
+
+  // ❗ どちらにも該当しない場合
+  console.warn(`⚠️ '${command}' は正しい形式のコマンドではありません。`);
+}
+
+
+
+function logRecognition(message, options = {}) {
+  const logBody = document.getElementById('logBody');
+  if (logBody) {
+    const row = document.createElement('tr');
+
+    // === 信頼度バー + 数値 ===
+  const confidenceCell = document.createElement('td');
+  if (options.confidence !== undefined) {
+  const percentage = Math.round(options.confidence * 100);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'confidence-wrapper';
+  wrapper.style.display = 'flex'; // 表示切替
+
+  const container = document.createElement('div');
+  container.className = 'confidence-container';
+
+  const bar = document.createElement('div');
+  bar.className = 'confidence-bar';
+  bar.style.width = `${percentage}%`;
+
+  const percentText = document.createElement('div');
+  percentText.className = 'confidence-percent';
+  percentText.textContent = `${percentage}%`;
+
+  container.appendChild(bar);
+  wrapper.appendChild(container);
+  wrapper.appendChild(percentText);
+
+  confidenceCell.appendChild(wrapper);
+  }
+  row.appendChild(confidenceCell);
+
+
+
+
+    // === メッセージ表示 ===
+    const messageCell = document.createElement('td');
+    messageCell.innerHTML = message;
+    row.appendChild(messageCell);
+
+    // === 表に追加 ===
+    logBody.insertBefore(row, logBody.firstChild);
+
+    if (options.autoRemoveAfter) {
+      setTimeout(() => {
+        row.remove();
+      }, options.autoRemoveAfter);
+    }
+
+    logBody.scrollTop = logBody.scrollHeight;
+  }
+}
+
+
+
+
+// ✅ ログ全体クリア用
+function resetLog() {
+  const logBody = document.getElementById('logBody');
+  if (logBody) {
+    logBody.innerHTML = '';
+    console.log("🧹 ログをリセットしました");
+  }
+}
+
+// ✅ ヘルパー関数：入力欄で文字入力中か？
+function isTypingInput() {
+  const el = document.activeElement;
+  return el && (
+    el.tagName === "INPUT" ||
+    el.tagName === "TEXTAREA" ||
+    el.isContentEditable
+  );
+}
+
+// ✅ キーボード操作全般
+document.addEventListener("keydown", (event) => {
+  const key = event.key;
+  const visibleStep = document.querySelector('.step:not([style*="display: none"])');
+  if (!visibleStep) return;
+
+  const buttons = visibleStep.querySelectorAll('.course-button, .level-button');
+
+  // ⬆️⬇️ 上下キーで選択移動（入力中は無効）
+  if ((key === "ArrowDown" || key === "ArrowUp") && buttons.length > 0 && !isTypingInput()) {
+    const selected = [...buttons].find(btn => btn.classList.contains('selected'));
+    let index = [...buttons].indexOf(selected);
+
+    if (index === -1) {
+      buttons[0].classList.add('selected');
+      buttons[0].focus();
+      return;
+    }
+
+    buttons[index].classList.remove('selected');
+    index = key === "ArrowDown"
+      ? (index + 1) % buttons.length
+      : (index - 1 + buttons.length) % buttons.length;
+    buttons[index].classList.add('selected');
+    buttons[index].focus();
+    return;
+  }
+
+  // ⏎ Enterキー：選択中をクリック or 次へ
+  if (key === "Enter" && !isTypingInput()) {
+    const selected = visibleStep.querySelector('.selected');
+    if (selected) {
+      selected.click();
+      return;
+    }
+
+    const nextBtn = visibleStep.querySelector('.next-button:not([disabled])');
+    if (nextBtn) {
+      nextBtn.click();
+      return;
+    }
+  }
+
+  // ➡️ → 次へ（入力中は無効）
+  if (key === "ArrowRight" && !isTypingInput()) {
+    const nextBtn = visibleStep.querySelector('.next-button:not([disabled])');
+    if (nextBtn) nextBtn.click();
+  }
+
+  // ⬅️ or Backspace or Esc → 戻る（入力中は無効）
+  if ((key === "ArrowLeft" || key === "Backspace" || key === "Escape") && !isTypingInput()) {
+    const backBtn = document.getElementById("backButton");
+    if (backBtn && backBtn.style.display !== "none") {
+      backBtn.click();
+    }
+  }
+
+  // 🔢 数字キー 1〜3 で選択してクリック（入力中は無効）
+  if (["1", "2", "3"].includes(key) && !isTypingInput()) {
+    const index = parseInt(key) - 1;
+    if (buttons[index]) {
+      buttons.forEach(btn => btn.classList.remove('selected'));
+      buttons[index].classList.add('selected');
+      buttons[index].click();
+    }
+  }
+});
+
+
+
+
+
+</script>
+<!--<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands" defer></script>-->
+<script src="commands.js" defer></script>
+<script src="commandHandlers.js"> defer</script>
+<script src="translations.js" defer></script>
+</body>
+</html>
