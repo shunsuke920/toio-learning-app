@@ -4,7 +4,6 @@ const TRANSLATIONS = {
     'back': '⬇️',
     'right': '↪️',
     'left': '↩️',
-    'stop': '⛔',
     'go straight': '🚶',
     'hurry up and go straight': '🏃',
 

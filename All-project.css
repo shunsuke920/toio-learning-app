@@ -15,15 +15,37 @@ body, html {
   margin-top: auto;
 }
 
-#header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 10px;
-  z-index: 1000;
+
+/* =========================
+   全ページ共通の横幅
+========================= */
+
+:root {
+  --content-width: 1500px;
+  --content-height: 300px;
+  --feedback-width: 450px;
 }
 
 
+/* Step1〜Step5 */
+.step {
+  width: min(100%, var(--content-width));
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+
+/* 左上のロボットも同じ基準 */
+#header {
+  width: min(100%, var(--content-width));
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+
+/* ロボット */
 .floating-icon {
   width: 85px;
   cursor: pointer;
@@ -32,7 +54,6 @@ body, html {
   display: inline-block;
   transition: transform 1s ease;
 }
-
 
 
 @keyframes floatAndWobble {
@@ -44,6 +65,32 @@ body, html {
 }
 
 
+/* =========================
+   全ステップ共通幅
+========================= */
+:root {
+  --content-width: 850px;
+}
+
+.step {
+  width: min(100%, var(--content-width));
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   Step内の各コンテナを
+   親幅からはみ出させない
+========================= */
+.button-container,
+.level-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 
 
 /* 見出しのスタイル */
@@ -53,12 +100,12 @@ h1, h2, h3 {
     font-family: 'Roboto', sans-serif;
 }
 
-h1 {
-    font-size: 2.5em;
+h2 {
+    font-size: 2.2em;
     font-family: 'Robot', sans-serif;
     text-align: center;
-    margin-top: 100px;
-    margin-bottom: 50px;
+    margin-top: 15px;
+    margin-bottom: 25px;
     opacity:0;
     transform: translateY(20px);
     animation: fadeIn 2.5s ease-out forwards;
@@ -85,21 +132,7 @@ h1 {
     border-radius: 8px;
 }
 
-/* ====== ボタンのスタイル ======  */
-.button-container {
-    position: relative;
 
-    display: grid; /* grid-template-columnsは display: gridの時のみ有効 */
-     grid-template-columns: repeat(2, auto); /* 自動幅にして */
-  justify-content: center; /* gridでも右寄せできる */
-    align-items: center;       /* ← 中央揃え：縦方向（※高さがある親が必要） */
-    width: 100%;
-    gap: 5px;
-    margin-top: 20px;
-    transform: translateX(20px);
-    row-gap: 20px;  /* 上下の間隔 */
-    column-gap: 35px; /* 左右の間隔 */
-}
 
 
 .button {
@@ -122,12 +155,20 @@ h1 {
 }
 
 
+
+
 .level-container {
   display: grid;
+
   grid-template-columns: repeat(3, 200px);
-  justify-content: center;
-  column-gap: 80px;
+
+  justify-content: space-between;
+
+  width: 100%;
+
   margin-top: 20px;
+
+  box-sizing: border-box;
 }
 
 
@@ -144,6 +185,8 @@ h1 {
   color: #444;
   text-align: center;
 }
+
+
 
 
 
@@ -194,6 +237,7 @@ h1 {
 }
 
 
+
 /*レベル選択 コース選択ボタン*/
 .course-button,
 .level-button {
@@ -202,9 +246,9 @@ h1 {
   align-items: center;
   width: 200px;
   margin: 20px;
-  height: 65px;
+  height: 60px;
   padding: 10px 15px;
-  font-size: 25px;
+  font-size: 20px;
     line-height: 1.4; /* 改行時の行間調整 */
   white-space: normal; /* 複数行を許容 */
   word-break: keep-all; /* 単語の途中で改行させない */
@@ -218,6 +262,66 @@ h1 {
   flex-direction: column; /* ←改行レイアウトに適応 */
 }
 
+
+/* コースボタン配置も言語と同じ */
+.button-container {
+  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 160px);
+  gap: 25px 35px;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* コースボタンだけ言語ボタンと同じサイズ */
+.course-button {
+  width: 160px;
+  height: 70px;
+  padding: 10px 15px;
+  margin: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.native-tutorial {
+  position: fixed;
+  top: -180px;
+}
+
+/* ネイティブフレーズ：初回お知らせ */
+.native-first-notice {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translate(-50%, -20px);
+
+  padding: 14px 24px;
+
+  background: #fff8e8;
+  color: #765116;
+  border: 1px solid #f0d68f;
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  z-index: 9999;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 0.3s ease,
+              transform 0.3s ease,
+              visibility 0.3s;
+}
+
+.native-first-notice.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
 
 /* コース選択とレベル選択は一緒の見た目 */
 .course-button:hover {
@@ -278,20 +382,38 @@ h1 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
   
-  /* 🔙 戻るボタン */
-  .back-button {
-    background-color: #9CA3AF;
-    position: absolute;
-    left: 310px;
-    top: 75%;
-    transform: translateY(-85px);
-    z-index: 10;
-    font-size: 20px;
-    padding: 6px 12px;
-    width: auto;
-    height: auto;
-    border-radius: 4px;
-  }
+
+/* 戻るボタンのエリア自体を700pxで中央配置 */
+.navigation-buttons {
+  width: min(100%, var(--content-width));
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  box-sizing: border-box;
+}
+
+/* 戻るボタン */
+.back-button {
+  background-color: #9CA3AF;
+  margin: 0;
+  position: absolute;
+  bottom: 80px;
+  font-size: 16px;
+  width: auto;
+  height: auto;
+
+  border-radius: 4px;
+}
+
+
+
+
+
+  
   .back-button:hover {
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -348,24 +470,26 @@ h1 {
 
 /* ====== グリッドのスタイル ====== */
 .grid-container-wrapper {
-  max-height: 480px;/* 高さ調整（下ボタンとの重なり防止） */
-  overflow-y: visible;          
+  max-height: var(--content-height);
+  overflow-y: auto;
+
   margin-bottom: 10px;
-  padding: 0 12px;   
+  padding: 0 12px;
 }
 
 .grid-container-wrapper::-webkit-scrollbar {
   display: none;                /* Chrome用 */
+  
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, 150px);
   justify-content: center;
-  gap: 13px;
+  gap: 20px;
   padding: 17px;
 
-  max-width: 1100px;
+  width: min(100%, var(--content-width));
   margin: 0 auto;
   /*background-color: #edf5ff;   💡← ここが“壁”になる！ */
   border-radius: 0px;
@@ -397,28 +521,176 @@ h1 {
     transform: scale(1.1);
     font-weight: bold;
 }
+/* =========================
+   全ステップ共通幅
+========================= */
+:root {
+  --content-width: 850px;
+}
 
-/* ふつうのカード配列 3*2 */
+/* =========================
+   道案内フレーズカード共通
+========================= */
+#expressionContainer {
+  display: grid;
+  width: min(100%, var(--content-width));
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+#expressionContainer .card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   かんたん：4列
+========================= */
+#expressionContainer.beginner {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+
+
+/* カード */
+#expressionContainer.beginner .card {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+
+  box-sizing: border-box;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+/* =========================
+   ふつう：3列×2段
+========================= */
 #expressionContainer.intermediate {
-  grid-template-columns: repeat(3, 160px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
 }
 
-/*むずかしいのカード配列*/ 
+/* むずかしい：4列 */
 #expressionContainer.advanced {
-  grid-template-columns: repeat(4, 160px);
-  gap: 10px;
-  padding: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
 
-  max-width: 720px;
-  margin: -20px auto 0;
+  padding: 10px;
+  margin: 0 auto;
   transform: none;
+
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
+
+/* =========================
+   カード共通
+========================= */
+#expressionContainer .card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* むずかしいカード */
 #expressionContainer.advanced .card {
-  min-height: 80px;
+  min-height: 90px;
   padding: 6px 10px;
   font-size: 15px;
 }
+
+
+
+  /* 動作と表現 */
+/* =========================
+   動作と表現：6ペアを横並び
+========================= */
+
+#expressionContainer-verbsAdverbs {
+    display: grid;
+    grid-template-columns: repeat(6, 110px);
+    justify-content: center;
+    gap: 20px;
+
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   6ペアを横並び
+========================= */
+#expressionContainer-verbsAdverbs {
+    display: grid;
+    grid-template-columns: repeat(6, 130px);
+    justify-content: center;
+    gap: 20px;
+
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* =========================
+   上下のペアを囲む青枠
+========================= */
+#expressionContainer-verbsAdverbs .expression-pair {
+    display: grid;
+    grid-template-rows: 130px 130px;
+    gap: 12px;
+
+    min-width: 0;
+    padding: 10px;
+    box-sizing: border-box;
+
+    border: 1px solid #cfe5fa;
+    border-radius: 14px;
+    background: transparent;
+}
+
+/* =========================
+   表現カード
+========================= */
+#expressionContainer-verbsAdverbs .expression-pair .card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    padding: 6px 7px;
+    box-sizing: border-box;
+
+    font-size: 13px;
+    line-height: 1.45;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background: white;
+    color: #263d54;
+}
+
+/* 長い英語表現の折り返し */
+#expressionContainer-verbsAdverbs .expression-en {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
 /* ====== コンフィデンスメーター ====== */
 .confidence-wrapper {
   display: flex;
@@ -595,13 +867,16 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 .button-group {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.8rem;
   margin-top: 25px;
+  transform: translate(100px, 450px);
 }
 .btn {
-  font-size: 1rem;
-  padding: 0.6rem 1.2rem;
+  width: 150px;
+  height: 48px;
+ font-size: 16px;
+  padding: 7px 5px;
   border: none;
   border-radius: 8px;
   color: white;
@@ -609,6 +884,7 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 }
 .speak-btn {
   background-color: #5CD69A;
+
 }
 .slow-btn {
   background-color: #FFC107; 
@@ -666,6 +942,10 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 .custom-select .options div:hover {
   background-color: #f0f0f0;
 }
+
+.custom-select {
+  display: none;
+}
 .feedback-box {
   margin-top: 1.5rem;
   padding: 0.8rem 1.2rem;
@@ -685,156 +965,6 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   background-color: #ffeaea;
   border: 2px solid #ff7b7b;
   color: #c0392b;
-}
-
-/* ============================
-   ❌ 発音エラーフィードバック
-============================ */
-
-.error-feedback {
-  width: min(500px, 80%);
-  margin: 35px auto 100px;
-  padding: 24px 20px;
-
-  background: #fff7f7;
-  border: 2px solid #f3b3b3;
-  border-radius: 20px;
-
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.10);
-
-  animation: errorPop 0.5s ease;
-}
-
-.error-feedback.hidden {
-  display: none;
-}
-
-.error-title {
-  font-size: 34px;
-  font-weight: 800;
-  color: #e74c3c;
-  margin-bottom: 5px;
-}
-
-.error-message {
-  font-size: 17px;
-  color: #666;
-  margin-bottom: 24px;
-}
-
-
-/* ============================
-   単語ごとの表示
-============================ */
-
-/* 単語を横並び */
-.word-feedback {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-
-  margin: 18px auto;
-}
-
-
-/* 単語カード */
-.word-result {
-  min-width: 110px;
-  padding: 10px 16px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-
-  border-radius: 10px;
-
-  font-size: 16px;
-  font-weight: 700;
-}
-
-
-/* =========================
-   ✅ 正解
-========================= */
-
-.word-result.correct {
-  background: #e8f8ee;
-  border: 1px solid #c8efd6;
-}
-
-.word-result.correct .feedback-word {
-  color: #222;
-}
-
-.word-result.correct .word-mark {
-  background: #20b965;
-  color: white;
-}
-
-
-/* =========================
-   ❌ 不正解
-========================= */
-
-.word-result.incorrect {
-  background: #ffe2e2;
-  border: 1px solid #ffc4c4;
-}
-
-.word-result.incorrect .feedback-word {
-  color: #d63031;
-}
-
-.word-result.incorrect .word-mark {
-  background: #e74c3c;
-  color: white;
-}
-
-
-/* ✓ / ✕ の丸 */
-.word-mark {
-  width: 26px;
-  height: 26px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  font-size: 17px;
-  font-weight: 800;
-
-  flex-shrink: 0;
-}
-/* ============================
-   認識結果
-============================ */
-
-.recognition-result {
-  margin-top: 20px;
-  padding: 15px 20px;
-
-  background: #ffffff;
-  border-radius: 12px;
-
-  font-size: 17px;
-  color: #333;
-}
-
-#recognizedText {
-  font-weight: 700;
-}
-
-.recognized-correct {
-  color: #20b965;
-}
-
-.recognized-incorrect {
-  color: #e74c3c;
 }
 
 /* ============================
@@ -863,19 +993,20 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 
 }
 
+ /*メモ機能をいったん削除
+
 .memo-header-wrapper {
   display: flex;
-  justify-content: center; /* 🧭 中央寄せ */
+  justify-content: center; 
   align-items: center;
-  gap: 1rem; /* 🔍と📝の間のスペース */
+  gap: 1rem; 
   margin-top: 10rem;
   margin-left: 100px;
   transform: translateX(-40px);
   margin: 200px auto 0 auto;
 }
 
-/* margin: 上 右 下 左;
-*/
+
 .memo {
   margin: 0;
   display: inline-block;
@@ -906,7 +1037,7 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   user-select: none;
 }
 
-/* 実際にドラッグ中（つかんでる） */
+
 .memo-item[draggable="true"]:active {
   cursor: grabbing;
 }
@@ -931,15 +1062,18 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 }
 
 #memoList {
-  display: none; /* ← 最初は表示状態 */
+  display: none; 
   width: 180px;
   margin: 0 auto;
-}
+}  */
+
+
 
 /* ==========================
 📁 フォルダ機能のスタイル
 ========================== */
 
+/*
 .folder-main {
   display: flex;
   align-items: center;
@@ -953,7 +1087,7 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
    box-sizing: border-box;
 }
 
-/* 🗑️ 削除ボタン */
+
 .folder-delete-btn {
   background: none;
   border: none;
@@ -966,7 +1100,7 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 }
 
 .folder-wrapper {
-  margin-bottom: 5px; /* 例: 以前は8pxや12pxだったなら縮める */
+  margin-bottom: 5px;
   margin-left: 0;
 }
 
@@ -992,11 +1126,11 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-grow: 1;       /* ✅ これで伸びる */
-  min-width: 0;       /* ✅ これがないと省略が効かない */
+  flex-grow: 1;       
+  min-width: 0;       
 }
 
-/* 📝 フォルダタイトル部分（クリックで開閉） */
+
 .folder-title {
   font-size: 1rem;
   font-weight: normal;
@@ -1013,13 +1147,12 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   outline: none;
   padding: 0;
   margin: 0;
-  /* flex-grow: 1; ← ❌ これが原因！削除 or 無効化 */
-
-  max-width: 100px;   /* ✅ 入力欄の最大幅を制限 */
-  width: auto;        /* ✅ コンテンツに応じて幅調整 */
+ 
+  max-width: 100px;  
+  width: auto;       
   color: inherit;
 
-  /* 👇 ゴミ箱との自然な余白 */
+ 
   margin-right: 8px;
   white-space: nowrap;
   overflow: hidden;
@@ -1029,8 +1162,8 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 
 
 #addFolderBtn {
-  background-color: transparent; /* 枠なし */
-  color: #333; /* テキストの色（見えるように） */
+  background-color: transparent; 
+  color: #333; 
   border: none;
   border-radius: 0;
   padding: 4px 8px;
@@ -1044,15 +1177,15 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   box-shadow: none;
   transition: background-color 0.2s ease;
 }
-
-/* 🆕 タイトル・inputを囲むラッパー */
-
+*/
 
 
 
 
 
 
+
+/*
 
 .folder-icon {
  width: 20px;
@@ -1098,7 +1231,9 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
-}
+} 
+*/
+
 
 /* ====== Step4のNativePhraseの CSS ====== */
 
@@ -1182,16 +1317,30 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   margin-bottom: 20px;
 }
 
-.success-feedback {
-  width: min(500px, 80%);
-  margin: 35px auto 100px;
-  padding: 24px 20px;
 
+/* =========================
+   Feedback 共通サイズ
+========================= */
+
+.success-feedback,
+.error-feedback {
+  width: min(var(--feedback-width), 95%);
+  max-height: 260px;
+
+  margin: 30px auto 100px;
+  padding: 14px 20px;
+
+  border-radius: 20px;
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+
+.success-feedback {
   background: #f1fff6;
   border: 2px solid #7ee2a7;
-  border-radius: 20px;
-
-  text-align: center;
+  
 
   box-shadow: 0 5px 15px rgba(46, 204, 113, 0.12);
 
@@ -1202,34 +1351,21 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   display: none;
 }
 
-.success-icon {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 8px;
 
-  border-radius: 50%;
-  background: #18b85b;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-  font-size: 45px;
-  font-weight: bold;
-}
 
 .success-title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   color: #18a957;
-  margin-bottom: 5px;
+
+  margin: 0 0 5px;
 }
 
+
 .success-message {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 15px;
   color: #333;
+  margin-bottom: 20px;
 }
 
 @keyframes successPop {
@@ -1243,6 +1379,156 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
     transform: scale(1);
   }
 }
+
+
+
+/* ============================
+   ❌ 発音エラーフィードバック
+============================ */
+
+.error-feedback {
+  background: #fff7f7;
+  border: 2px solid #f3b3b3;
+
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.10);
+
+  animation: errorPop 0.5s ease;
+}
+
+.error-feedback.hidden {
+  display: none;
+}
+
+.error-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #e74c3c;
+
+  margin: 0 0 10px;
+}
+
+.error-message {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+
+/* ============================
+   単語ごとの表示
+============================ */
+
+/* 単語を横並び */
+.word-feedback {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px 12px;      /* 縦8px・横12px */
+  margin: 8px auto;   /* 15px → 8px */
+}
+
+/* 単語カード */
+.word-result {
+  min-width: 110px;
+  padding: 6px 14px;  /* 8px 16px → 少し小さく */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  box-sizing: border-box;
+}
+
+
+
+/* =========================
+   ✅ 正解
+========================= */
+
+.word-result.correct {
+  background: #e8f8ee;
+  border: 1px solid #c8efd6;
+}
+
+.word-result.correct .feedback-word {
+  color: #222;
+}
+
+.word-result.correct .word-mark {
+  background: #20b965;
+  color: white;
+}
+
+
+/* =========================
+   ❌ 不正解
+========================= */
+
+.word-result.incorrect {
+  background: #ffe2e2;
+  border: 1px solid #ffc4c4;
+}
+
+.word-result.incorrect .feedback-word {
+  color: #d63031;
+}
+
+.word-result.incorrect .word-mark {
+  background: #e74c3c;
+  color: white;
+}
+
+
+/* ✓ / ✕ の丸 */
+.word-mark {
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-size: 17px;
+  font-weight: 750;
+
+  flex-shrink: 0;
+}
+/* ============================
+   認識結果
+============================ */
+
+.recognition-result {
+  margin-top: 10px;
+  padding: 8px 12px;
+
+  background: #ffffff;
+  border-radius: 12px;
+
+  font-size: 15px;
+  color: #333;
+}
+
+#recognizedText {
+  font-weight: 650;
+}
+
+.recognized-correct {
+  color: #20b965;
+}
+
+.recognized-incorrect {
+  color: #e74c3c;
+}
+
 
 
 /* 例文と読み上げボタンを横並び*/
@@ -1344,17 +1630,18 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 }
 
 .native-buttons {
-    position: fixed;
+  width: auto;
+  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  position: absolute;
+  bottom: 80px;
+  margin-left:110px;
 
-    bottom: 250px;
-    left: 350px;
-    transform: translateX(115px);
+  gap: 0.8rem;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    z-index: 1000;
-    gap: 0.8rem;
+  box-sizing: border-box;
 }
 
 .native-speak-btn {
@@ -1365,8 +1652,16 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   background-color: #4DA6FF;
 }
 
+/* 音声をまだ聞いていない状態 */
+.native-check-btn.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+
 .native-speak-btn:hover,
-.native-check-btn:hover {
+.native-check-btn:not(.disabled):hover {
   transform: scale(1.01);
   opacity: 0.9;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -1381,17 +1676,22 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 }
 /* ====== Step5のNavigation Button CSS ====== */
 .nav-button-group {
-  position: fixed;
+  width: 100%;
+  max-width: 100%;
 
-  bottom: 251px;
-  left: 340px;
-  transform: translateX(115px);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  z-index: 1000;
+  justify-content: flex-start;
+  align-items: center;
+
   gap: 0.8rem;
+  position: absolute;
+  bottom: 80px;
+  margin-left:110px;
+
+  box-sizing: border-box;
 }
+
 
 .navcheck-btn {
   font-size: 1rem;
@@ -1589,12 +1889,26 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
     100% { transform: rotate(360deg); }
 }
 
+/* ネイティブフレーズ専用 */
+.button-group.native-buttons {
+  position: absolute;
+  bottom: 80px;
+  margin-left: 110px;
+
+  transform: none;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.8rem;
+}
+
 /* =================================
    Split / Half-screen 用
    画面が狭くなった時だけ上書き
 ================================= */
 
-@media (max-width: 1100px) {
+@media (max-width: 850px) {
 
   /* Step タイトル */
   .step h1,
@@ -1606,7 +1920,7 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 
   .step h2,
   .step-subtext {
-    font-size: 18px;
+    font-size: 25px;
   }
 
   /* 繋げるボタン */
@@ -1678,44 +1992,75 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   border-radius: 10px;
 }
 
+  /* =========================
+   Step4：発音練習ボタン
+========================= */
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 16px;
+  transform: translate(130px, 450px);
+}
+
+.btn {
+  font-size: 16px;
+  padding: 7px 12px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  min-width: 140px;
+
+}
+
+
   /* 戻るボタン */
   .back-button {
     font-size: 16px;
     padding: 6px 10px;
-    left: 20px;
-    bottom: 80px;
+    left: 150px;
+    bottom: 100px;
     top: auto;
     transform: none;
   }
+/* =========================
+   Start / Stop
+========================= */
 
-  /* Start / Stop */
-  .nav-button-group {
-    position: fixed;
-    font-size: 16px;
-    left: 200px;
-    bottom: 100px;
+.nav-button-group {
+  position: fixed;
 
-    transform: translateX(-50%);
+  left: 130px;
+  bottom: 100px;
 
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-  }
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+}
 
-  .navcheck-btn,
-  .stop-btn {
-    font-size: 14px;
-    padding: 7px 12px;
-  }
+.navcheck-btn,
+.stop-btn {
+  width: auto;
+  height: auto;
+
+  min-width: 140px;
+
+  font-size: 16px;
+  padding: 7px 12px;
+}
 
 
-  /* Native Phrase 発音チェック */
-/* Native Phrase 発音チェック */
+/* =========================
+   Native Phrase 発音チェック
+========================= */
+
 .native-buttons {
   position: fixed;
 
-  left: 15px;
-  bottom: 150px;
+  left: 130px;
+  bottom: 100px;
 
   top: auto;
   transform: none;
@@ -1730,7 +2075,6 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   width: auto;
   height: auto;
 
-  min-height: 0;
   min-width: 140px;
 
   font-size: 16px;
@@ -1741,8 +2085,8 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
   .success-feedback,
   .error-feedback {
     width: min(400px, 82%);
-    margin: 35px auto 0;
-    padding: 14px 14px;
+    margin: 20px auto 0;
+    padding: 12px 14px;
   }
 
   /* 表現カード */
@@ -1779,7 +2123,7 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
 
     justify-content: center;
 
-    gap: 40px;
+    gap: 25px;
 
     max-width: 650px;
 
@@ -1805,3 +2149,5 @@ background: linear-gradient(to right, #f39c12, #2ecc71);
     justify-content: center;
   }
 }
+
+

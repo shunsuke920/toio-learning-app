@@ -14,7 +14,7 @@
 
     <!-- Step 1: Toioとつなげる -->
     <div id="step1" class="step">
-        <h1>Step 1: Toioとつなげる</h1>
+        <h2>Step 1: Toioとつなげる</h2>
         <div class="connect-wrapper">
             <button id="connectButton" class="button start-button">つなげる</button>
             <button id="goToStep2" class="button next-button" disabled style="display: none;">次へ</button>
@@ -25,7 +25,7 @@
 
 <!-- Step 2: 言語を選ぶ -->
 <div id="step2" class="step" style="display: none;">
-    <h1>Step 2: 言語を選んでね</h1>
+    <h2>Step 2: 言語を選んでね</h2>
     <div class="language-container">
         <button class="language-button" data-language="en">
             <img src="https://flagcdn.com/w40/us.png" alt="English" class="flag-icon">
@@ -59,7 +59,7 @@
 
 <!-- Step 3: コースを選ぶ -->
 <div id="step3" class="step" style="display: none;">
-    <h1>Step 3: コースを選んでね</h1>
+    <h2>Step 3: コースを選んでね</h2>
     <div class="button-container">
         <button class="course-button navigation" data-course="navigation">道案内コース</button>
         <button class="course-button pronunciation" data-course="pronunciation">発音コース</button>
@@ -72,7 +72,7 @@
 
 <!-- Step 4: レベルを選ぶ -->
 <div id="step4-navigation" class="step" style="display: none;">
-  <h1>Step 4: レベルを選んでね</h1>
+  <h2>Step 4: レベルを選んでね</h2>
   <div class="level-container">
 
     <div class="level-option">
@@ -101,8 +101,8 @@
 <!-- 副詞：動作と表現を学ぶページ -->
 <div id="step4-verbsAdverbs" class="step" style="display: none;">
 
-  <h1>Step 4: 動作と表現を学ぼう！</h1>
-  <h2 class="B">使える表現</h2>
+  <h2>Step 4: 動作と表現を学ぼう！</h2>
+  <h3 class="B">使える表現</h3>
 
   <div id="expressionContainer-verbsAdverbs"
        class="grid-container"></div>
@@ -124,7 +124,6 @@
   <div id="verbsAdverbsSuccessFeedback"
        class="success-feedback hidden">
 
-    <div class="success-icon">✓</div>
 
     <div class="success-title">
       Great!
@@ -165,26 +164,26 @@
 
 <!-- 発音練習コース -->
 <div id="step4-pronunciation" class="step" style="display: none;">
-  <h1 class="step-title">Step 4: 発音を練習しよう！</h1>
+  <h2 class="step-title">Step 4: 発音を練習しよう！</h2>
   <p class="step-subtext">以下の単語を声に出して練習してみよう！</p>
 
 <div class="practice-container">
   <div class="input-save-wrapper">
     <textarea id="practiceInput" placeholder="ここに単語や文を入力" class="practice-input" rows="3"></textarea>
     
-    <!-- ✅ 保存ボタン：画像クリックで保存 -->
+    <!-- ✅ 保存ボタン：画像クリックで保存 
     <button id="saveMemoButton" class="btn save-btn">
       <img src="Saveimage.png" alt="保存" width="25">
-    </button>
+    </button>　-->
   </div>
 </div>
 
 
     <div class="button-group">
+      <button onclick="startRecognition()" class="btn check-btn">🎙 発音チェック</button>
       <button onclick="speak()" class="btn speak-btn">🔈 読み上げ</button>
       <button onclick="speak('slow')" class="btn slow-btn">🐢 ゆっくり</button>
-      <button onclick="startRecognition()" class="btn check-btn">🎙 発音チェック</button>
-
+      
       <!-- カスタムセレクト -->
       <div class="custom-select" id="customSelect">
         <div class="selected" id="selectedOption">
@@ -195,13 +194,19 @@
       <input type="hidden" id="voiceSelect" value="en-GB">
     </div>
 
-<!--メモセクション-->
+<!--
+メモ機能をいったん無効化
+
 <div class="memo-header-wrapper">
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 キーワード" oninput="renderMemoList()">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="🔍 キーワード"
+      oninput="renderMemoList()"
+    >
   </div>
 
-  <!-- ✅ トグル可能なメモの見出し -->
   <h2 class="memo" id="memoHeader">📝 Open</h2>
 
   <button id="addFolderBtn">
@@ -209,13 +214,12 @@
     フォルダ追加
   </button>
 
-  <!-- ✅ ここに追加！: フォルダ表示領域 -->
   <div id="folderList"></div>
 </div>
 
-<!-- ✅ メモ一覧は .memo-header-wrapper の外に！ -->
 <div id="memoList"></div>
 
+-->
 
     <!-- ✅ フィードバック表示 -->
     <div id="feedback" class="feedback-box"></div>
@@ -224,9 +228,12 @@
 
   <!-- ✅ ネイティブフレーズ集エリア -->
    <div id="step4-nativephrases" class="step" style="display: none;">
-  <h1>Step 4: ネイディブフレーズ集を学ぼう！</h1>
+  <h2>Step 4: ネイディブフレーズ集を学ぼう！</h2>
 
-
+<!-- 初回のみ表示するお知らせ -->
+<div id="nativeFirstNotice" class="native-first-notice" role="status">
+  🔊 まずは例文を聞いてね！
+</div>
 
   <!-- 🔙 上部ヘッダー（戻るボタン） -->
   <div id="nativeHeader" class="header-bar" style="display: none;">
@@ -235,6 +242,8 @@
     <p id="phraseTranslation" class="phrase-translation-text" style="text-align: center;"></p>
     <button id="backToBrowse" class="browse">← Browse</button>
   </div>
+
+  
 
   <!-- 📋 一覧 -->
   <div id="phraseList" class="phrase-list">
@@ -261,7 +270,6 @@
 
     <!-- ✅ 成功フィードバック -->
   <div id="successFeedback" class="success-feedback hidden">
-    <div class="success-icon">✓</div>
     <div class="success-title">Great!</div>
     <div class="success-message">正しく発音できました。</div>
   </div>
@@ -271,9 +279,7 @@
 
   <div class="error-title">Try again!</div>
 
-  <div class="error-message">
-    一部の単語が正しく認識されませんでした。
-  </div>
+
 
   <!-- 単語ごとの ✓ / ✕ をJSで生成 -->
   <div id="wordFeedback" class="word-feedback"></div>
@@ -283,17 +289,19 @@
     認識結果：<span id="recognizedText"></span>
   </div>
 
-  <div class="error-hint">
-    間違えた単語を意識して、もう一度文全体を発音してみましょう。
-  </div>
 
 </div>
 
 
-  <!-- 🔊 機能ボタン -->
-  <div class="button-group native-buttons">
-    <button onclick="startRecognitionNative()" class="btn check-btn native-check-btn">🎙 発音チェック</button>
-  </div>
+ <!-- 🔊 機能ボタン -->
+<div class="button-group native-buttons">
+  <button
+    id="nativeCheckBtn"
+    onclick="startRecognitionNative()"
+    class="btn check-btn native-check-btn disabled">
+    🎙 発音チェック
+  </button>
+</div>
 </div>
 
 
@@ -305,8 +313,8 @@
     <!-- Step 5: 音声認識でToioを制御(道案内コース専用) -->
 <div id="step5" class="step" style="display: none;">
 
-  <h1>Step5 動かしてみよう！</h1>
-  <h2 class="B">使える表現</h2>
+  <h2>Step5 動かしてみよう！</h2>
+  <h3 class="B">使える表現</h3>
 
   <div class="grid-container-wrapper">
     <div id="expressionContainer" class="grid-container"></div>
@@ -327,7 +335,7 @@
   <div id="navigationSuccessFeedback"
        class="success-feedback hidden">
 
-    <div class="success-icon">✓</div>
+
 
     <div class="success-title">
       Great!
@@ -723,6 +731,8 @@ function startRecognition() {
 //成功と失敗の境目 NormalizeText()で許可される範囲とは
 //Hello?	hello	hello vs hello	✅ 成功扱い
 
+
+/* メモ機能をいったん削除する
 //メモ機能を追加
 // ✅ メモを保存し、裸でMemoの下に表示（未分類扱いしない）
 function savePhrase() {
@@ -1131,6 +1141,8 @@ window.addEventListener("load", () => {
     //.catch(err => console.error("❌ ノイズ検出モデル初期化エラー:", err));
 });
 
+*/
+
 
 // ✅ 先に定義！ 学習必要
 function updateSelectedVoiceDisplay(langCode) {
@@ -1321,14 +1333,14 @@ function stopWaveform() {
 // ✅ レベル選択と表現更新（英語のみ）
 window.EXPRESSIONS = {
     en: {
-        beginner: ['go', 'back', 'right', 'left', 'stop'],
+        beginner: ['go', 'back', 'right', 'left'],
         intermediate: [
             'go straight',
             'turn right',
             'turn left',
             'go back',
-            'move and turn right',
-            'move and turn left'
+            'move forward and then turn right',
+            'move forward and then turn left'
         ],
         advanced: [
             'hurry up and go straight',
@@ -1339,8 +1351,8 @@ window.EXPRESSIONS = {
             'turn to your right',
             'turn to your left',
             'take a step back',
-            'go straight and turn right',
-            'go straight and turn left',
+            'go straight, turn right, and keep going straight',
+            'go straight, turn left, and keep going straight',
             'turn left and go straight',
             'turn right and go straight'
         ]
@@ -1435,13 +1447,13 @@ window.EXPRESSIONS = {
 window.VERB_ADVERB_LIST = {
     en: [
         'move slowly',
-        'move backwards slowly',
+        'move backward slowly',
         'move slightly to the left',
         'move slightly to the right',
         'turn around slowly',
         'walk slowly',
         'move fast',
-        'move backwards quickly',
+        'move backward quickly',
         'move fast to the left',
         'move fast to the right',
         'turn around quickly',
@@ -1719,16 +1731,35 @@ async function connectToio() {
 
 // ✅ container を定義（HTML内のidと一致させる）
 const container = document.getElementById("expressionContainer-verbsAdverbs");
-VERB_ADVERB_LIST.en.forEach(expression => {
-    const button = document.createElement("button");
-    button.innerText = expression;
-    button.classList.add("expression-btn");
-    button.addEventListener("click", () => {
-        sendCommand("verbsAdverbs", expression);
-    });
-    container.appendChild(button);
-});
 
+const expressions = VERB_ADVERB_LIST.en;
+const half = expressions.length / 2;
+
+container.innerHTML = "";
+
+for (let i = 0; i < half; i++) {
+
+    // ペアを囲む枠
+    const pair = document.createElement("div");
+    pair.classList.add("expression-pair");
+
+    // 上段の表現
+    const topCard = document.createElement("div");
+    topCard.classList.add("expression-btn");
+    topCard.textContent = expressions[i];
+
+
+
+    // 下段の表現
+    const bottomCard = document.createElement("div");
+    bottomCard.classList.add("expression-btn");
+    bottomCard.textContent = expressions[i + half];
+
+    pair.appendChild(topCard);
+    pair.appendChild(bottomCard);
+
+    container.appendChild(pair);
+}
  
 
 
@@ -2149,19 +2180,47 @@ function updateExpressionsVerbsAdverbs(language = "en") {
 
     const expressions = VERB_ADVERB_LIST[language] || [];
 
-    expressions.forEach(expression => {
-        const div = document.createElement('div');
-        div.className = 'card';
+    const half = Math.floor(expressions.length / 2);
 
-        const translated = TRANSLATIONS?.[language]?.[expression] || ''; // 絵文字（または空文字）
+    for (let i = 0; i < half; i++) {
 
-        div.innerHTML = `
-            <div class="expression-en">${expression} ${translated}</div>
-        `;
 
-        expressionContainer.appendChild(div);
-    });
+
+// 上下のペアを囲む枠
+const pair = document.createElement('div');
+pair.className = 'expression-pair';
+
+// 表現カードを生成する関数
+function createCard(expression) {
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    const translated = TRANSLATIONS?.[language]?.[expression] || '';
+
+    const content = document.createElement('div');
+    content.className = 'expression-en';
+    content.textContent = `${expression} ${translated}`;
+
+    div.appendChild(content);
+
+    return div;
 }
+
+// 上段
+const topCard = createCard(expressions[i]);
+
+// 下段
+const bottomCard = createCard(expressions[i + half]);
+
+// ペアに上下のカードを追加
+pair.appendChild(topCard);
+pair.appendChild(bottomCard);
+
+// コンテナに追加
+expressionContainer.appendChild(pair);
+    }
+}
+
 
 // ✅ 選択中の言語に基づいて呼び出す
 const voiceLang = document.getElementById("voiceSelect")?.value || "en-US";
@@ -2642,6 +2701,29 @@ function startRecognitionForText(targetText) {
 }
 
 
+// ========================
+// ✅ ネイティブフレーズ：初回通知
+// ========================
+
+let hasShownNativeNotice = false;
+let nativeNoticeTimer;
+
+function showNativeFirstNotice() {
+  if (hasShownNativeNotice) return;
+
+  const notice = document.getElementById("nativeFirstNotice");
+  if (!notice) return;
+
+  hasShownNativeNotice = true;
+  notice.classList.add("show");
+
+  clearTimeout(nativeNoticeTimer);
+
+  nativeNoticeTimer = setTimeout(() => {
+    notice.classList.remove("show");
+  }, 3000);
+}
+
 
 // ========================
 // ✅ 詳細を表示する関数
@@ -2657,11 +2739,19 @@ function showPhraseDetails(key) {
   const phrase = nativePhrases[key];
   if (!phrase) return;
 
+  // ネイティブフレーズ集の使い方を初回だけ表示
   const phraseList = document.getElementById("phraseList");
   phraseList.innerHTML = "";
 
   // Browseを表示
   document.getElementById("nativeHeader").style.display = "block";
+
+// ✅ 新しいフレーズに切り替わったので発音チェックをリセット
+currentNativeSentence = null;
+
+document
+  .getElementById("nativeCheckBtn")
+  ?.classList.add("disabled");
 
   // タイトル・意味・発音
   document.getElementById("selectedPhrase").textContent = phrase.phrase;
@@ -2726,6 +2816,11 @@ li.querySelector(".example-speak-btn").addEventListener("click", () => {
 
   // 例文を読み上げ
   speakExamples([sentence], lang);
+
+    // ✅ 発音チェックボタンを使用可能にする 透明→使用可能に
+  document
+    .getElementById("nativeCheckBtn")
+    ?.classList.remove("disabled");
 });
 
 } else {
@@ -2738,6 +2833,9 @@ exampleList.appendChild(li);
 
 // 最後に詳細を表示
 document.getElementById("phraseDetails").style.display = "block";
+
+// ✅ 最初のフレーズ詳細を開いたときだけ通知
+showNativeFirstNotice();
 }
 
 document.getElementById("backToBrowse").addEventListener("click", () => {
@@ -2811,6 +2909,8 @@ if (examplesToSpeak.length === 0) {
 
   speakExamples(examplesToSpeak, voiceLang);
 };
+
+
 
 window.startRecognitionNative = function() {
 
@@ -3150,13 +3250,15 @@ else if (selectedCourse === "navigation") {
 
 
 // ============================
-// ✅ 正解
+// ✅ 正解判定（表記ゆれ対応）
 // ============================
-if (
-  validExpressions.includes(
-    canonicalTranscript
-  )
-) {
+const matchedExpression = validExpressions.find(
+  expression =>
+    normalizeForComparison(expression) ===
+    normalizeForComparison(canonicalTranscript)
+);
+
+if (matchedExpression !== undefined) {
 
   console.log(
     "✅ 正しく認識:",
@@ -3345,13 +3447,31 @@ async function sendtoio(command, toio, selectedLanguage = 'en') {
 
   for (const level of levels) {
     const cmds = window.getToioCommand(selectedLanguage, level);
-    if (cmds?.[command]) {
-      toioCommand = cmds[command];
-      break;
-    }
+   const matchedKey = Object.keys(cmds || {}).find(
+  key =>
+    normalizeForComparison(key) ===
+    normalizeForComparison(command)
+);
+
+if (matchedKey !== undefined) {
+  toioCommand = cmds[matchedKey];
+  break;
+}
   }
 
-  const handler = window.toioCommandHandlers?.[command];
+  const handlers = window.toioCommandHandlers || {};
+
+const matchedHandlerKey = Object.keys(handlers).find(
+  key =>
+    normalizeForComparison(key) ===
+    normalizeForComparison(command)
+);
+
+const handler =
+  matchedHandlerKey !== undefined
+    ? handlers[matchedHandlerKey]
+    : null;
+
 
   if (toioCommand instanceof Uint8Array) {
     console.log(`🚀 Toioに送信するバイナリコマンド: ${command}`, toioCommand);
